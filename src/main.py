@@ -11,10 +11,10 @@ def menu():
     print('3. Ordenar com Merge Sort')
     print('4. Ordenar com Quick Sort (Instavel e Recursivo)')
     print('5. Ordenar com Quick Sort (Estavel)')
-    print('10. Ordenar com Bucket Sort')
-    print('6. Mostrar Registros (Desordenado)')
-    print('7. Mostrar Registros (Ordenado)')
-    print('8. Comparar Metodos de Ordenacao')
+    print('6. Ordenar com Bucket Sort')
+    print('7. Mostrar Registros (Desordenado)')
+    print('8. Mostrar Registros (Ordenado)')
+    print('9. Comparar Metodos de Ordenacao')
     print('0. Encerrar Programa\n')
 
 if __name__ == '__main__':
@@ -75,21 +75,6 @@ if __name__ == '__main__':
 
             clear()
 
-
-        elif opcao == 10:
-            if(len(registros) > 0):
-                print('Opcao escolhida: Ordenar com Bucket Sort')
-                inicio = time.time()
-                bucket_sort(registros)
-                fim = time.time()
-                tempo_total = fim - inicio
-                print("\nTempo decorrido:", round(tempo_total, 6), 's')
-                print('A Ordenacao terminou.\n')
-                ordenado = True
-            else:
-                print("nao ha registros")
-            
-            clear()
         elif opcao == 5:
             if len(registros) > 0:
                 print('Opcao escolhida: Ordenar com Quick Sort (Estavel)')
@@ -104,7 +89,22 @@ if __name__ == '__main__':
                 print('Nao ha nenhum registro.')
 
             clear()
+
         elif opcao == 6:
+            if(len(registros) > 0):
+                print('Opcao escolhida: Ordenar com Bucket Sort')
+                inicio = time.time()
+                bucket_sort(registros)
+                fim = time.time()
+                tempo_total = fim - inicio
+                print("\nTempo decorrido:", round(tempo_total, 6), 's')
+                print('A Ordenacao terminou.\n')
+                ordenado = True
+            else:
+                print("nao ha registros")
+            
+            clear()
+        elif opcao == 7:
             if len(registros) > 0:
                 print('Opcao escolhida: Mostrar Registros (Desordenado)')
                 print("Ha {} registros".format(len(registros)))
@@ -118,7 +118,7 @@ if __name__ == '__main__':
                 print('Nao ha nenhum registro.')
                 
             clear()
-        elif opcao == 7:
+        elif opcao == 8:
             print('Opcao escolhida: Mostrar Registros (Ordenado)')
             if ordenado == True:
                 print("Ha {} registros".format(len(registros)))
@@ -132,7 +132,7 @@ if __name__ == '__main__':
                 print('Primeiro use algum mecanismo de ordenacao para ver os registros.')
 
             clear()
-        elif opcao == 8:
+        elif opcao == 9:
             print('Opcao escolhida: Comparar Metodos de Ordenacao')
             # Funcao
             clear()

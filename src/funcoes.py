@@ -129,7 +129,25 @@ def gerar_registros_aleatorios(registros, tamanho):
 
 
 def registro_unico(registros):
-    pass
+    modelo = input("Digite o modelo do veiculo: ")
+    while len(modelo) > 18:
+        modelo = input("Nome do modelo muito grande, escreva uma versão reduzida: ")
+
+    placa = input("Digite a placa do veiculo: ")
+    while len(placa) >  7:
+        placa = input("Placa incorreta, digite novamente: ")
+
+    ano = input("Digite o ano do veiculo: ")
+    while len(ano) > 4:
+        ano = input("Ano incorreto, tente novamente: ")
+    
+    dono = input("Digite o nome do dono do veiculo: ")
+    while len(dono) > 16:
+        dono = input("Nome muito grande, escreva um nome menor: ")
+    
+    ordemCadastro = len(registros) + 1
+    registro = Registro(ano, placa, dono, modelo, ordemCadastro)
+    registros.append(registro)
 
 
 def mostrar_registros(registros, tamanho):
