@@ -104,6 +104,8 @@ def gerar_registros_aleatorios(registros, tamanho):
 
     maiuscula = string.ascii_uppercase
     minuscula = string.ascii_lowercase
+    numeros = string.digits
+    
     registros.clear()
 
     for i in range (tamanho):
@@ -111,7 +113,7 @@ def gerar_registros_aleatorios(registros, tamanho):
         ano = random.randrange(1930, 2020)
 
         placa = ''.join(random.choice(maiuscula) for _ in range(3))
-        placa += ''.join(random.randrange(0000, 9999))
+        placa += ''.join(random.choice(numeros) for _ in range(4))
 
         dono = ''.join([random.choice(maiuscula)])
         dono += ''.join(random.choice(minuscula) for _ in range(random.randrange(3, 10)))
