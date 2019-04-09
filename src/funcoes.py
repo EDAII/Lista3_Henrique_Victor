@@ -95,6 +95,7 @@ modelos = [
 
 ]
 
+
 def clear():
     input("Pressione uma tecla para continuar...")
     os.system('clear')
@@ -105,10 +106,10 @@ def gerar_registros_aleatorios(registros, tamanho):
     maiuscula = string.ascii_uppercase
     minuscula = string.ascii_lowercase
     numeros = string.digits
-    
+
     registros.clear()
 
-    for i in range (tamanho):
+    for i in range(tamanho):
 
         ano = random.randrange(1930, 2020)
 
@@ -116,7 +117,8 @@ def gerar_registros_aleatorios(registros, tamanho):
         placa += ''.join(random.choice(numeros) for _ in range(4))
 
         dono = ''.join([random.choice(maiuscula)])
-        dono += ''.join(random.choice(minuscula) for _ in range(random.randrange(3, 10)))
+        dono += ''.join(random.choice(minuscula)
+                        for _ in range(random.randrange(3, 10)))
 
         modelo = modelos[random.randrange(0, len(modelos))]
 
@@ -125,9 +127,21 @@ def gerar_registros_aleatorios(registros, tamanho):
         registro = Registro(ano, placa, dono, modelo, ordemCadastro)
         registros.append(registro)
 
+
 def registro_unico(registros):
     pass
 
 
 def mostrar_registros(registros, tamanho):
-    print(registros)
+    linha = '-' * 83
+    print(linha)
+
+    print("|{:^81}|".format("REGISTROS DE {} VEICULOS CADASTRADOS".format(tamanho)))
+    print(linha)
+    print('|      MODELO      |   PLACA   |   ANO   |      DONO      |   ORDEM DE CADASTRO   |')
+    print(linha)
+    for i in range(tamanho):
+        print("|{:^18}|{:^11}|{:^9}|{:^16}|{:^23}|".format(
+            registros[i].modelo, registros[i].placa, registros[i].ano, registros[i].dono, registros[i].ordemCadastro
+        ))
+        print(linha)
