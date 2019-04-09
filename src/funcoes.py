@@ -1,9 +1,11 @@
 import os
 import random
 import string
+import time
 import matplotlib
-import matplotlib.pyplot as pyplot
+import matplotlib.pyplot as plt
 from registros import Registro
+from ordenacoes import *
 
 modelos = [
     'A1',
@@ -163,3 +165,59 @@ def mostrar_registros(registros, tamanho):
             registros[i].modelo, registros[i].placa, registros[i].ano, registros[i].dono, registros[i].ordemCadastro
         ))
         print(linha)
+
+
+def comparar_ordenacoes(registros, desordenado):
+    lista_tempos = {}
+
+    # Merge Sort - MS
+    registros = desordenado.copy()
+    print('Merge Sort')
+    inicio = time.time()
+    merge_sort(registros)
+    fim = time.time()         
+    lista_tempos['MS'] = (fim - inicio)
+    print('Tempo decorrido:',lista_tempos['MS'], 's\n')
+    
+    # Quick Sort (Instavel e Recursivo) - QSR
+    registros = desordenado.copy()
+    print('Quick Sort (Instavel e Recursivo)')
+    inicio = time.time()
+    quick_sort_recursivo(registros, 0, len(registros)-1)
+    fim = time.time()         
+    lista_tempos['QSR'] = (fim - inicio)
+    print('Tempo decorrido:',lista_tempos['QSR'], 's\n')
+    
+    # Quick Sort (Estavel) - QSE
+    registros = desordenado.copy()
+    print('Quick Sort (Estavel)')
+    inicio = time.time()
+    registros = quick_sort_estavel(registros)
+    fim = time.time()         
+    lista_tempos['QSE'] = (fim - inicio)
+    print('Tempo decorrido:',lista_tempos['QSE'], 's\n')
+    
+    # Bucket Sort - BS
+    registros = desordenado.copy()
+    print('Bucket Sort')
+    inicio = time.time()
+    bucket_sort(registros)
+    fim = time.time()         
+    lista_tempos['BS'] = (fim - inicio)
+    print('Tempo decorrido:',lista_tempos['BS'], 's\n')
+
+    tipos = ['MS', 'QSR', 'QSE', 'BS']
+    tempos = [lista_tempos['MS'], lista_tempos['QSR'], lista_tempos['QSE'], lista_tempos['BS']]
+
+    _, ax = plt.subplots(figsize=(16, 9))
+    ax.set(xlabel='Metodo de Ordenacao', ylabel='Tempo (s)')
+    plt.figure(1)
+    plt.bar(tipos, tempos)
+
+    for i, v in enumerate(tempos):
+        plt.text(i-0.4, max(tempos)/100, " "+str(v), color='black', va='center', fontweight='bold', fontsize=12)
+                
+    plt.suptitle('Tempo em segundos para ordenar {} registros'.format(len(registros)))
+    plt.show()
+                
+    clear()

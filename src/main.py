@@ -1,6 +1,4 @@
 from funcoes import *
-from ordenacoes import *
-import time
 
 def menu():
     os.system('clear')
@@ -133,8 +131,12 @@ if __name__ == '__main__':
 
             clear()
         elif opcao == 9:
-            print('Opcao escolhida: Comparar Metodos de Ordenacao')
-            # Funcao
+            if len(registros) > 0:
+                print('Opcao escolhida: Comparar Metodos de Ordenacao')
+                comparar_ordenacoes(registros, desordenado)
+            else:
+                print('Nao ha nenhum registro.')
+
             clear()
         elif opcao == 0:
             print('Encerrando programa')
