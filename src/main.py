@@ -11,6 +11,7 @@ def menu():
     print('3. Ordenar com Merge Sort')
     print('4. Ordenar com Quick Sort (Instavel e Recursivo)')
     print('5. Ordenar com Quick Sort (Estavel)')
+    print('10. Ordenar com Bucket Sort')
     print('6. Mostrar Registros (Desordenado)')
     print('7. Mostrar Registros (Ordenado)')
     print('8. Comparar Metodos de Ordenacao')
@@ -72,6 +73,22 @@ if __name__ == '__main__':
             else:
                 print('Nao ha nenhum registro.')
 
+            clear()
+
+
+        elif opcao == 10:
+            if(len(registros) > 0):
+                print('Opcao escolhida: Ordenar com Bucket Sort')
+                inicio = time.time()
+                bucket_sort(registros)
+                fim = time.time()
+                tempo_total = fim - inicio
+                print("\nTempo decorrido:", round(tempo_total, 6), 's')
+                print('A Ordenacao terminou.\n')
+                ordenado = True
+            else:
+                print("nao ha registros")
+            
             clear()
         elif opcao == 5:
             if len(registros) > 0:
