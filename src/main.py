@@ -92,7 +92,7 @@ if __name__ == '__main__':
             if(len(registros) > 0):
                 print('Opcao escolhida: Ordenar com Bucket Sort')
                 inicio = time.time()
-                bucket_sort(registros)
+                registros = bucket_sort(registros)
                 fim = time.time()
                 tempo_total = fim - inicio
                 print("\nTempo decorrido:", round(tempo_total, 6), 's')

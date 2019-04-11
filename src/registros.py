@@ -10,21 +10,12 @@ class Registro:
         self.ordemCadastro = ordemCadastro
     
     def __gt__(self, outro):
-        if(self.ano == outro.ano):
-            return self.placa < outro.placa # Ordenar em ordem alfabetica das placas
-
         return self.ano > outro.ano # Maior ano vem primeiro
     
     def __lt__(self, outro):
-        if(self.ano == outro.ano):
-            return self.placa > outro.placa # Ordenar em ordem nao-alfabetica das placas
-
         return self.ano < outro.ano # Maior ano vem depois
     
     def __le__(self, outro):
-        if(self.ano == outro.ano):
-            return self.placa >= outro.placa # Ordenar em ordem nao-alfabetica das placas
-
         return self.ano <= outro.ano # Maior ano vem depois
     
     def __sub__(self, outro):

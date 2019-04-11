@@ -81,6 +81,7 @@ def bucket_sort(v):
     bucketSize = len(v) // 2
     if(len(v) == 0):
         print('Vetor está vazio!')
+        return
 
     minValue = v[0]
     maxValue = v[0]
@@ -106,16 +107,8 @@ def bucket_sort(v):
     # Sort buckets and place back into input array
     sortedArray = []
     for i in range(0, len(buckets)):
-        insertion_sort(buckets[i])
+        buckets[i].sort()
         for j in range(0, len(buckets[i])):
             sortedArray.append(buckets[i][j])
 
     return sortedArray
-
-
-def insertion_sort(v):
-    for i in range(1, len(v)):
-        j = i
-        while j != 0 and v[j] > v[j-1]:
-            v[j], v[j-1] = v[j-1], v[j]
-            j -= 1
