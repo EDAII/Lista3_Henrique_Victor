@@ -45,15 +45,15 @@ def particao(v, low, high):
     return (i+1)
 
 
-def quick_sort_recursivo(v, low, high):
+def quick_sort_inst_rec(v, low, high):
     if low < high:
         pi = particao(v, low, high)
 
-        quick_sort_recursivo(v, low, pi-1)
-        quick_sort_recursivo(v, pi+1, high)
+        quick_sort_inst_rec(v, low, pi-1)
+        quick_sort_inst_rec(v, pi+1, high)
 
 
-def quick_sort_estavel(v):
+def quick_sort_est_rec(v):
     if len(v) <= 1:
         return v
 
@@ -74,7 +74,36 @@ def quick_sort_estavel(v):
                     else:
                         greater.append(val)
 
-        return quick_sort_estavel(smaller)+[pivot]+quick_sort_estavel(greater)
+        return quick_sort_est_rec(smaller)+[pivot]+quick_sort_est_rec(greater)
+
+
+def quick_sort_inst_iterat(v, l, h): 
+    size = h - l + 1
+    stack = [0] * (size) 
+    top = -1 
+    top = top + 1
+    stack[top] = l 
+    top = top + 1
+    stack[top] = h 
+
+    while top >= 0: 
+        h = stack[top] 
+        top = top - 1
+        l = stack[top] 
+        top = top - 1
+        p = particao(v, l, h) 
+
+        if p-1 > l: 
+            top = top + 1
+            stack[top] = l 
+            top = top + 1
+            stack[top] = p - 1
+
+        if p+1 < h: 
+            top = top + 1
+            stack[top] = p + 1
+            top = top + 1
+            stack[top] = h
 
 
 def bucket_sort(v):
@@ -86,29 +115,25 @@ def bucket_sort(v):
     minValue = v[0]
     maxValue = v[0]
 
-    # For finding minimum and maximum values
     for i in range(0, len(v)):
         if v[i] < minValue:
             minValue = v[i]
         elif v[i] > maxValue:
             maxValue = v[i]
 
-    # Initialize buckets
     bucketCount = math.floor((maxValue - minValue) / bucketSize) + 1
     buckets = []
     for i in range(0, bucketCount):
         buckets.append([])
 
-    # For putting values in buckets
     for i in range(0, len(v)):
         buckets[math.floor((v[i] - minValue) /
                            bucketSize)].append(v[i])
 
-    # Sort buckets and place back into input array
-    sortedArray = []
+    sortedvay = []
     for i in range(0, len(buckets)):
         buckets[i].sort()
         for j in range(0, len(buckets[i])):
-            sortedArray.append(buckets[i][j])
+            sortedvay.append(buckets[i][j])
 
-    return sortedArray
+    return sortedvay
