@@ -10,60 +10,78 @@ def verif_placa(placa):
 
 class Interface:
     def __init__(self, instancia_Tk):
-        self.master=Frame(instancia_Tk)
-        self.master.pack()
+        self.topo = Frame(instancia_Tk)
+        self.topo["pady"] = 50
+        self.topo.pack()
+        self.frame1 = Frame(instancia_Tk)
+        self.frame1["pady"] = 6
+        self.frame1.pack()
+        self.frame2 = Frame(instancia_Tk)
+        self.frame2["pady"] = 6
+        self.frame2.pack()
+        self.frame3 = Frame(instancia_Tk)
+        self.frame3["pady"] = 6
+        self.frame3.pack()
+        self.frame4 = Frame(instancia_Tk)
+        self.frame4["pady"] = 6
+        self.frame4.pack()
+        self.frame5 = Frame(instancia_Tk)
+        self.frame5["pady"] = 6
+        self.frame5.pack()
 
-        self.msg1 = Label(self.master, text = "Quantidade de Registros: 0")
+        self.msg1 = Label(self.topo, text = "Quantidade de Registros: 0")
+        self.msg1["padx"] = 150
         self.msg1["font"] = ("Arial", "20", "bold")
-        self.msg1.grid(row=0, column=0, padx=10, pady=50)
+        self.msg1.pack(side=LEFT)
 
-        self.msg2 = Label(self.master, text = "Tipo de Ordenacao: Nenhuma")
+        self.msg2 = Label(self.topo, text = "Tipo de Ordenacao: Nenhuma")
+        self.msg2["padx"] = 150
         self.msg2["font"] = ("Arial", "20", "bold")
-        self.msg2.grid(row=0, column=1, padx=10, pady=50)
+        self.msg2.pack(side=RIGHT)
 
-        self.B1 = Button(self.master, text="Gerar Registros Aleatoriamente", width=55)
+        self.B1 = Button(self.frame1, text="Gerar Registros Aleatoriamente", width=55)
         self.B1["font"] = ("Arial", "15", "bold")
-        self.B1.grid(row=1, column=0, padx=10, pady=5)
+        self.B1.pack(side=LEFT)
         self.B1["command"] = self.gerar_regist_aleat
 
-        self.B2 = Button(self.master, text="Cadastrar Registro Individual", width=55)
+        self.B2 = Button(self.frame1, text="Cadastrar Registro Individual", width=55)
         self.B2["font"] = ("Arial", "15", "bold")
-        self.B2.grid(row=1, column=1, padx=10, pady=5)
+        self.B2.pack(side=RIGHT)
         self.B2["command"] = self.cadastro
 
-        self.B3 = Button(self.master, text="Ordenar", width=55)
+        self.B3 = Button(self.frame2, text="Ordenar", width=112)
         self.B3["font"] = ("Arial", "15", "bold")
-        self.B3.grid(row=2, column=0, padx=10, pady=5)
+        self.B3.pack(side=LEFT)
         self.B3["command"] = self.ordenar
 
-        self.B4 = Button(self.master, text="Mostrar Registros (Desordenado)", width=55)
+        self.B4 = Button(self.frame3, text="Mostrar Registros (Desordenado)", width=55)
         self.B4["font"] = ("Arial", "15", "bold")
-        self.B4.grid(row=3, column=0, padx=10, pady=5)
+        self.B4.pack(side=LEFT)
         self.B4["command"] = lambda: mostrar_registros(desordenado, len(registros)) # Mudar
 
-        self.B5 = Button(self.master, text="Mostrar Registros (Ordenado)", width=55)
+        self.B5 = Button(self.frame3, text="Mostrar Registros (Ordenado)", width=55)
         self.B5["font"] = ("Arial", "15", "bold")
-        self.B5.grid(row=3, column=1, padx=10, pady=5)
+        self.B5.pack(side=RIGHT)
         self.B5["command"] = lambda: mostrar_registros(registros, len(registros)) # Mudar
 
-        self.B6 = Button(self.master, text="Comparar Metodos de Ordenacao (Registro atual)", width=55)
+        self.B6 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Registro atual)", width=55)
         self.B6["font"] = ("Arial", "15", "bold")
-        self.B6.grid(row=4, column=0, padx=10, pady=5)
+        self.B6.pack(side=LEFT)
         self.B6["command"] = lambda: comparar_ordenacoes(registros, desordenado)
 
-        self.B7 = Button(self.master, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55)
+        self.B7 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55)
         self.B7["font"] = ("Arial", "15", "bold")
-        self.B7.grid(row=4, column=1, padx=10, pady=5)
+        self.B7.pack(side=RIGHT)
         #self.B7["command"] = lambda: 
 
-        self.B8 = Button(self.master, text="Ler Registros de Arquivo", width=55)
+        self.B8 = Button(self.frame5, text="Ler Registros de Arquivo", width=55)
         self.B8["font"] = ("Arial", "15", "bold")
-        self.B8.grid(row=5, column=0, padx=10, pady=5)
+        self.B8.pack(side=LEFT)
         #self.B8["command"] = lambda: 
 
-        self.B9 = Button(self.master, text="Salvar Registros em Arquivo", width=55)
+        self.B9 = Button(self.frame5, text="Salvar Registros em Arquivo", width=55)
         self.B9["font"] = ("Arial", "15", "bold")
-        self.B9.grid(row=5, column=1, padx=10, pady=5)
+        self.B9.pack(side=RIGHT)
         #self.B9["command"] = lambda: 
     
 
@@ -91,7 +109,7 @@ class Interface:
         botao.grid(row=2, pady=5)
         mensagem.grid(row=3, pady=5)
 
-        tela.geometry("400x200+400+400")
+        tela.geometry("400x200+700+400")
         tela.mainloop()
     
 
@@ -234,6 +252,6 @@ class Interface:
 if __name__ == '__main__':
     menu=Tk()
     menu.title('LISTA 3 - ESTRUTURA DE DADOS 2')
-    menu.geometry("1400x400+300+200")
+    menu.geometry("1400x450+300+200")
     Interface(menu)
     menu.mainloop()
