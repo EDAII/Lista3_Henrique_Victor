@@ -1,5 +1,7 @@
 import math
+import sys
 
+sys.setrecursionlimit(10000)
 
 def merge_sort(v):
     if len(v) > 1:

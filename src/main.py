@@ -4,11 +4,24 @@ from funcoes import *
 
 bg_color = "white"
 button_color = "cyan"
-button_font = ("Arial", "15", "bold")
+option_button_font = ("Arial", "15", "bold")
+confirmation_button_font = ("Arial", "10", "bold")
+error_msg_font = ("Arial", "10", "bold")
 text_font = ("Arial", "20", "bold")
 
 def verif_placa(placa):
-    pass
+    if len(placa) < 7:
+        return "Quantidade de caracteres para placa menor que o necessario ({}). Deve ser 7".format(len(placa))
+    if len(placa) > 7:
+        return "Quantidade de caracteres para placa maior que o necessario ({}). Deve ser 7".format(len(placa))
+    
+    if placa[0:3].isalpha() == False:
+        return "Formato incorreto da placa. Erro esta nos 3 primeiros caracteres (devem ser apenas letras)"
+    
+    if placa[3:].isdigit() == False:
+        return "Formato incorreto da placa. Erro esta nos 4 ultimos caracteres (devem ser apenas numeros)"
+
+    return placa.upper()
 
 class Interface:
     def __init__(self, instancia_Tk):
@@ -53,47 +66,47 @@ class Interface:
         self.msg2.pack(side=RIGHT)
 
         self.B1 = Button(self.frame1, text="Gerar Registros Aleatoriamente", width=55, bg=button_color)
-        self.B1["font"] = button_font
+        self.B1["font"] = option_button_font
         self.B1.pack(side=LEFT)
         self.B1["command"] = self.gerar_regist_aleat
 
         self.B2 = Button(self.frame1, text="Cadastrar Registro Individual", width=55, bg=button_color)
-        self.B2["font"] = button_font
+        self.B2["font"] = option_button_font
         self.B2.pack(side=RIGHT)
         self.B2["command"] = self.cadastro
 
         self.B3 = Button(self.frame2, text="Ordenar", width=112, bg=button_color)
-        self.B3["font"] = button_font
+        self.B3["font"] = option_button_font
         self.B3.pack(side=LEFT)
         self.B3["command"] = self.ordenar
 
         self.B4 = Button(self.frame3, text="Mostrar Registros (Desordenado)", width=55, bg=button_color)
-        self.B4["font"] = button_font
+        self.B4["font"] = option_button_font
         self.B4.pack(side=LEFT)
-        self.B4["command"] = lambda: mostrar_registros(self.desordenado, len(self.desordenado)) # Mudar
+        self.B4["command"] = lambda: mostrar_registros(self.desordenado, len(self.desordenado))
 
         self.B5 = Button(self.frame3, text="Mostrar Registros (Ordenado)", width=55, bg=button_color)
-        self.B5["font"] = button_font
+        self.B5["font"] = option_button_font
         self.B5.pack(side=RIGHT)
-        self.B5["command"] = lambda: mostrar_registros(self.registros, len(self.registros)) # Mudar
+        self.B5["command"] = self.mostrar_registros_ordenado
 
         self.B6 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Registro atual)", width=55, bg=button_color)
-        self.B6["font"] = button_font
+        self.B6["font"] = option_button_font
         self.B6.pack(side=LEFT)
         self.B6["command"] = lambda: comparar_ordenacoes(self.registros, self.desordenado)
 
         self.B7 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55, bg=button_color)
-        self.B7["font"] = button_font
+        self.B7["font"] = option_button_font
         self.B7.pack(side=RIGHT)
         #self.B7["command"] = lambda: 
 
         self.B8 = Button(self.frame5, text="Ler Registros de Arquivo", width=55, bg=button_color)
-        self.B8["font"] = button_font
+        self.B8["font"] = option_button_font
         self.B8.pack(side=LEFT)
         self.B8["command"] = self.abre_arquivo
 
         self.B9 = Button(self.frame5, text="Salvar Registros em Arquivo", width=55, bg=button_color)
-        self.B9["font"] = button_font
+        self.B9["font"] = option_button_font
         self.B9.pack(side=RIGHT)
         self.B9["command"] = self.salva_arquivo
     
@@ -122,15 +135,17 @@ class Interface:
         valor.pack()
 
         mensagem = Label(msg, text=" ")
-        mensagem["font"] = ("Arial", "10")
+        mensagem["font"] = error_msg_font
         mensagem.pack()
 
-        botaoCancel = Button(botoes, text="CANCELAR", height=1, bg='red2')
+        botaoCancel = Button(botoes, text="CANCELAR", bg='red2')
         botaoCancel["command"] = tela.destroy
+        botaoCancel["font"] = confirmation_button_font
         botaoCancel.pack(side=LEFT)
 
-        botaoSend = Button(botoes, text="ENVIAR", height=1, bg='green2')
+        botaoSend = Button(botoes, text="ENVIAR", bg='green2')
         botaoSend["command"] = lambda: self.verif_valor(valor.get(), mensagem, tela)
+        botaoSend["font"] = confirmation_button_font
         botaoSend.pack(side=RIGHT)
 
         tela.geometry("600x200+700+400")
@@ -143,6 +158,7 @@ class Interface:
             if valor > 0:
                 gerar_registros_aleatorios(self.registros, valor)
                 self.desordenado = self.registros.copy()
+                self.ordenado = False
                 tela.destroy()
                 self.msg1["text"] = "Quantidade de Registros: {}".format(len(self.registros))
                 self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
@@ -206,39 +222,42 @@ class Interface:
         modelo.pack(side=RIGHT)
 
         mensagem = Label(msg, text=" ")
-        mensagem["font"] = ("Arial", "10")
+        mensagem["font"] = error_msg_font
         mensagem.pack()
 
-        botaoCancel = Button(botoes, text="CANCELAR", height=1, bg='red2')
+        botaoCancel = Button(botoes, text="CANCELAR", bg='red2')
         botaoCancel["command"] = tela.destroy
+        botaoCancel["font"] = confirmation_button_font
         botaoCancel.pack(side=LEFT)
 
-        botao = Button(botoes, text="ENVIAR", height=1, bg='green2')
-        botao["command"] = lambda: self.verif_cadastro(ano.get(), placa.get(), dono.get(), modelo.get(), mensagem, tela)
-        botao.pack(side=RIGHT)
+        botaoSend = Button(botoes, text="ENVIAR", bg='green2')
+        botaoSend["command"] = lambda: self.verif_cadastro(ano.get(), placa.get(), dono.get(), modelo.get(), mensagem, tela)
+        botaoSend["font"] = confirmation_button_font
+        botaoSend.pack(side=RIGHT)
 
-        tela.geometry("650x350+400+400")
+        tela.geometry("650x350+650+300")
         tela.mainloop()
     
 
     def verif_cadastro(self, ano, placa, dono, modelo, mensagem, tela):
         try:
             ano = int(ano)
-            placa = int(placa)
-
-            if len(dono) == 0:
+            placa = verif_placa(placa)
+            if len(placa) != 7:
+                mensagem["text"] = placa
+            elif len(dono) == 0:
                 mensagem["text"] = "Dono em branco"
             elif len(modelo) == 0:
                 mensagem["text"] = "Modelo em branco"
             else:
-                print(len(self.desordenado))
                 registro_unico(self.registros, ano, placa, dono, modelo)
                 self.desordenado.append(self.registros[len(self.registros)-1])
+                self.ordenado = False
                 self.msg1["text"] = "Quantidade de Registros: {}".format(len(self.registros))
                 self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
                 tela.destroy()
         except ValueError:
-            mensagem["text"] = "Ano e Placa devem ser um numero valido"
+            mensagem["text"] = "Ano deve ser um numero valido"
     
 
     def ord_aux(self, tipo, registros, tela):
@@ -258,47 +277,59 @@ class Interface:
             self.registros = bucket_sort(registros)
             self.msg2["text"] = "Tipo de Ordenacao: Bucket Sort"
         
+        self.ordenado = True
         tela.destroy()
 
 
     def ordenar(self):
-        tela = Tk()
-        tela.title('Ordenar')
-        top = Frame(tela)
-        middle = Frame(tela)
-        top.pack()
-        middle.pack()
+        if len(self.registros) == 0:
+            self.aviso("Nao ha nenhum registro")
+        elif self.ordenado == True:
+            self.aviso("Os Registros ja estao Ordenados")
+        else:
+            tela = Tk()
+            tela.title('Ordenar')
+            top = Frame(tela)
+            middle = Frame(tela)
+            top.pack()
+            middle.pack()
 
-        text = Label(top, text="Escolha um dos metodos abaixo")
-        text["pady"] = 10
-        text["font"] = ("Arial", "15")
-        text.grid(row=0, pady=5)
+            text = Label(top, text="Escolha um dos metodos abaixo")
+            text["pady"] = 10
+            text["font"] = text_font
+            text.grid(row=0, pady=5)
 
-        B1 = Button(middle, text="Merge Sort", width=30)
-        B1.grid(row=1, padx=10, pady=5)
-        B1["command"] = lambda: self.ord_aux("MS", self.registros, tela)
+            B1 = Button(middle, text="Merge Sort", width=30, bg=button_color)
+            B1["font"] = option_button_font
+            B1.grid(row=1, padx=10, pady=5)
+            B1["command"] = lambda: self.ord_aux("MS", self.registros, tela)
 
-        B2 = Button(middle, text="Quick Sort (Instavel e Recursivo)", width=30)
-        B2.grid(row=2, padx=10, pady=5)
-        B2["command"] = lambda: self.ord_aux("QSIR", self.registros, tela)
+            B2 = Button(middle, text="Quick Sort (Instavel e Recursivo)", width=30, bg=button_color)
+            B2["font"] = option_button_font
+            B2.grid(row=2, padx=10, pady=5)
+            B2["command"] = lambda: self.ord_aux("QSIR", self.registros, tela)
 
-        B3 = Button(middle, text="Quick Sort (Estavel e Recursivo)", width=30)
-        B3.grid(row=3, padx=10, pady=5)
-        B3["command"] = lambda: self.ord_aux("QSER", self.registros, tela)
+            B3 = Button(middle, text="Quick Sort (Estavel e Recursivo)", width=30, bg=button_color)
+            B3["font"] = option_button_font
+            B3.grid(row=3, padx=10, pady=5)
+            B3["command"] = lambda: self.ord_aux("QSER", self.registros, tela)
 
-        B4 = Button(middle, text="Quick Sort (Instavel e Interativo)", width=30)
-        B4.grid(row=4, padx=10, pady=5)
-        B4["command"] = lambda: self.ord_aux("QSII", self.registros, tela)
+            B4 = Button(middle, text="Quick Sort (Instavel e Interativo)", width=30, bg=button_color)
+            B4["font"] = option_button_font
+            B4.grid(row=4, padx=10, pady=5)
+            B4["command"] = lambda: self.ord_aux("QSII", self.registros, tela)
 
-        B5 = Button(middle, text="Bucket Sort", width=30)
-        B5.grid(row=5, padx=10, pady=5)
-        B5["command"] = lambda: self.ord_aux("BS", self.registros, tela)
+            B5 = Button(middle, text="Bucket Sort", width=30, bg=button_color)
+            B5["font"] = option_button_font
+            B5.grid(row=5, padx=10, pady=5)
+            B5["command"] = lambda: self.ord_aux("BS", self.registros, tela)
 
-        tela.geometry("400x270+400+400")
-        tela.mainloop()
+            tela.geometry("500x330+750+300")
+            tela.mainloop()
     
 
     def abre_arquivo(self):
+        self.registros.clear()
         path = filedialog.askopenfilename(initialdir = "/",title = "Selecione o Arquivo",filetypes = [("eda2 files","*.eda2")])
 
         i = 0
@@ -326,6 +357,9 @@ class Interface:
                         i = 0
 
             arq.close()
+            self.msg1["text"] = "Quantidade de Registros: {}".format(len(self.registros))
+            self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
+            self.ordenado = False
         except:
             return
 
@@ -345,6 +379,36 @@ class Interface:
             arq.close()
         except:
             return
+    
+    def aviso(self, mensagem):
+        tela = Tk()
+        tela.title('Aviso')
+
+        msg = Frame(tela)
+        botaoFrame = Frame(tela)
+        msg.pack()
+        botaoFrame.pack()
+
+        text = Label(msg, text=mensagem)
+        text["font"] = text_font
+        text["pady"] = 10
+        text.pack()
+
+        botao = Button(botaoFrame, text=" OK ")
+        botao["command"] = tela.destroy
+        botao.pack()
+
+        tela.geometry("550x100+700+400")
+        tela.mainloop()
+
+    def mostrar_registros_ordenado(self):
+        if len(self.registros) == 0:
+            self.aviso("Nao ha nenhum registro")
+        elif self.ordenado == False:
+            self.aviso("Primeiro use algum Metodo de Ordenacao")
+        else:
+            mostrar_registros(self.registros, len(self.registros))
+
 
 if __name__ == '__main__':
     menu=Tk()
