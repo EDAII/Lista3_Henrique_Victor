@@ -156,48 +156,38 @@ def comparar_ordenacoes(registros, desordenado):
 
     # Merge Sort - MS
     registros = desordenado.copy()
-    print('Merge Sort')
     inicio = time.time()
     merge_sort(registros)
     fim = time.time()         
     lista_tempos['MS'] = (fim - inicio)
-    print('Tempo decorrido:',lista_tempos['MS'], 's\n')
     
     # Quick Sort (Instavel e Recursivo) - QSIR
     registros = desordenado.copy()
-    print('Quick Sort (Instavel e Recursivo)')
     inicio = time.time()
     quick_sort_inst_rec(registros, 0, len(registros)-1)
     fim = time.time()         
     lista_tempos['QSIR'] = (fim - inicio)
-    print('Tempo decorrido:',lista_tempos['QSIR'], 's\n')
     
     # Quick Sort (Estavel e Recursivo) - QSER
     registros = desordenado.copy()
-    print('Quick Sort (Estavel e Recursivo)')
     inicio = time.time()
     registros = quick_sort_est_rec(registros)
     fim = time.time()         
     lista_tempos['QSER'] = (fim - inicio)
-    print('Tempo decorrido:',lista_tempos['QSER'], 's\n')
 
     # Quick Sort (Instavel e Interativo) - QSII
     registros = desordenado.copy()
-    print('Quick Sort (Instavel e Interativo)')
     inicio = time.time()
     quick_sort_inst_iterat(registros, 0, len(registros)-1)
     fim = time.time()         
     lista_tempos['QSII'] = (fim - inicio)
-    print('Tempo decorrido:',lista_tempos['QSII'], 's\n')
     
     # Bucket Sort - BS
     registros = desordenado.copy()
-    print('Bucket Sort')
     inicio = time.time()
     bucket_sort(registros)
     fim = time.time()         
     lista_tempos['BS'] = (fim - inicio)
-    print('Tempo decorrido:',lista_tempos['BS'], 's\n')
 
     tipos = ['Merge Sort', 'Quick Sort IR', 'Quick Sort ER', 'Quick Sort II', 'Bucket Sort']
     tempos = [lista_tempos['MS'], lista_tempos['QSIR'], lista_tempos['QSER'], lista_tempos['QSII'], lista_tempos['BS']]

@@ -78,7 +78,7 @@ def quick_sort_est_rec(v):
 
 
 def quick_sort_inst_iterat(v, l, h): 
-    size = h - l + 1
+    size = len(v)
     stack = [0] * (size) 
     top = -1 
     top = top + 1

@@ -1,15 +1,14 @@
 from tkinter import *
 from funcoes import *
 
-registros = []
-desordenado = []
-ordenado = False
-
 def verif_placa(placa):
     pass
 
 class Interface:
     def __init__(self, instancia_Tk):
+        self.registros = []
+        self.desordenado = []
+        self.ordenado = False
         self.topo = Frame(instancia_Tk)
         self.topo["pady"] = 50
         self.topo.pack()
@@ -57,17 +56,17 @@ class Interface:
         self.B4 = Button(self.frame3, text="Mostrar Registros (Desordenado)", width=55)
         self.B4["font"] = ("Arial", "15", "bold")
         self.B4.pack(side=LEFT)
-        self.B4["command"] = lambda: mostrar_registros(desordenado, len(registros)) # Mudar
+        self.B4["command"] = lambda: mostrar_registros(self.desordenado, len(self.desordenado)) # Mudar
 
         self.B5 = Button(self.frame3, text="Mostrar Registros (Ordenado)", width=55)
         self.B5["font"] = ("Arial", "15", "bold")
         self.B5.pack(side=RIGHT)
-        self.B5["command"] = lambda: mostrar_registros(registros, len(registros)) # Mudar
+        self.B5["command"] = lambda: mostrar_registros(self.registros, len(self.registros)) # Mudar
 
         self.B6 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Registro atual)", width=55)
         self.B6["font"] = ("Arial", "15", "bold")
         self.B6.pack(side=LEFT)
-        self.B6["command"] = lambda: comparar_ordenacoes(registros, desordenado)
+        self.B6["command"] = lambda: comparar_ordenacoes(self.registros, self.desordenado)
 
         self.B7 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55)
         self.B7["font"] = ("Arial", "15", "bold")
@@ -117,10 +116,10 @@ class Interface:
         try:
             valor = int(valor)
             if valor > 0:
-                gerar_registros_aleatorios(registros, valor)
-                desordenado = registros.copy()
+                gerar_registros_aleatorios(self.registros, valor)
+                self.desordenado = self.registros.copy()
                 tela.destroy()
-                self.msg1["text"] = "Quantidade de Registros: {}".format(len(registros))
+                self.msg1["text"] = "Quantidade de Registros: {}".format(len(self.registros))
                 self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
             else:
                 mensagem["text"] = "Numero deve ser maior do que 0"
@@ -184,8 +183,10 @@ class Interface:
             elif len(modelo) == 0:
                 mensagem["text"] = "Modelo em branco"
             else:
-                registro_unico(registros, ano, placa, dono, modelo)
-                desordenado = registros.copy()
+                print(len(self.desordenado))
+                registro_unico(self.registros, ano, placa, dono, modelo)
+                self.desordenado.append(self.registros[len(self.registros)-1])
+                self.msg1["text"] = "Quantidade de Registros: {}".format(len(self.registros))
                 self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
                 tela.destroy()
         except ValueError:
@@ -200,13 +201,13 @@ class Interface:
             quick_sort_inst_rec(registros, 0, len(registros)-1)
             self.msg2["text"] = "Tipo de Ordenacao: Quick Sort (Instavel e Recursivo)"
         elif tipo == "QSER":
-            registros = quick_sort_est_rec(registros)
+            self.registros = quick_sort_est_rec(registros)
             self.msg2["text"] = "Tipo de Ordenacao: Quick Sort (Estavel e Recursivo)"
         elif tipo == "QSII":
             quick_sort_inst_iterat(registros, 0, len(registros)-1)
             self.msg2["text"] = "Tipo de Ordenacao: Quick Sort (Instavel e Interativo)"
         else:
-            registros = bucket_sort(registros)
+            self.registros = bucket_sort(registros)
             self.msg2["text"] = "Tipo de Ordenacao: Bucket Sort"
         
         tela.destroy()
@@ -227,23 +228,23 @@ class Interface:
 
         B1 = Button(middle, text="Merge Sort", width=30)
         B1.grid(row=1, padx=10, pady=5)
-        B1["command"] = lambda: self.ord_aux("MS", registros, tela)
+        B1["command"] = lambda: self.ord_aux("MS", self.registros, tela)
 
         B2 = Button(middle, text="Quick Sort (Instavel e Recursivo)", width=30)
         B2.grid(row=2, padx=10, pady=5)
-        B2["command"] = lambda: self.ord_aux("QSIR", registros, tela)
+        B2["command"] = lambda: self.ord_aux("QSIR", self.registros, tela)
 
         B3 = Button(middle, text="Quick Sort (Estavel e Recursivo)", width=30)
         B3.grid(row=3, padx=10, pady=5)
-        B3["command"] = lambda: self.ord_aux("QSER", registros, tela)
+        B3["command"] = lambda: self.ord_aux("QSER", self.registros, tela)
 
         B4 = Button(middle, text="Quick Sort (Instavel e Interativo)", width=30)
         B4.grid(row=4, padx=10, pady=5)
-        B4["command"] = lambda: self.ord_aux("QSII", registros, tela)
+        B4["command"] = lambda: self.ord_aux("QSII", self.registros, tela)
 
         B5 = Button(middle, text="Bucket Sort", width=30)
         B5.grid(row=5, padx=10, pady=5)
-        B5["command"] = lambda: self.ord_aux("BS", registros, tela)
+        B5["command"] = lambda: self.ord_aux("BS", self.registros, tela)
 
         tela.geometry("400x270+400+400")
         tela.mainloop()
