@@ -109,11 +109,6 @@ def quick_sort_inst_iterat(v, l, h):
 
 
 def bucket_sort(v):
-    bucketSize = len(v) // 2
-    if(len(v) == 0):
-        print('Vetor está vazio!')
-        return
-
     minValue = v[0]
     maxValue = v[0]
 
@@ -123,19 +118,18 @@ def bucket_sort(v):
         elif v[i] > maxValue:
             maxValue = v[i]
 
-    bucketCount = math.floor((maxValue - minValue) / bucketSize) + 1
+    bucketCount = 9
     buckets = []
     for i in range(0, bucketCount):
         buckets.append([])
 
     for i in range(0, len(v)):
-        buckets[math.floor((v[i] - minValue) /
-                           bucketSize)].append(v[i])
+        buckets[int(math.ceil((v[i].ano-1939)/10))].append(v[i])
 
-    sortedvay = []
+    sorted_v = []
     for i in range(0, len(buckets)):
         buckets[i].sort()
         for j in range(0, len(buckets[i])):
-            sortedvay.append(buckets[i][j])
+            sorted_v.append(buckets[i][j])
 
-    return sortedvay
+    return sorted_v

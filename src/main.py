@@ -9,9 +9,25 @@ confirmation_button_font = ("Arial", "10", "bold")
 error_msg_font = ("Arial", "10", "bold")
 text_font = ("Arial", "20", "bold")
 
+def verif_ano(ano):
+    if ano.isalpha() == True:
+        return "Ano deve ser um numero de 1930 a 2019"
+    
+    ano = int(ano)
+
+    if ano < 1930:
+        return "O ano deve ser 1930 ou maior"
+    
+    if ano > 2019:
+        return "O ano deve ser 2019 ou menor"
+    
+    return ano
+
+
 def verif_placa(placa):
     if len(placa) < 7:
         return "Quantidade de caracteres para placa menor que o necessario ({}). Deve ser 7".format(len(placa))
+
     if len(placa) > 7:
         return "Quantidade de caracteres para placa maior que o necessario ({}). Deve ser 7".format(len(placa))
     
@@ -241,6 +257,7 @@ class Interface:
 
     def verif_cadastro(self, ano, placa, dono, modelo, mensagem, tela):
         try:
+            ano = verif_ano(ano)
             ano = int(ano)
             placa = verif_placa(placa)
             if len(placa) != 7:
@@ -257,7 +274,7 @@ class Interface:
                 self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
                 tela.destroy()
         except ValueError:
-            mensagem["text"] = "Ano deve ser um numero valido"
+            mensagem["text"] = ano
     
 
     def ord_aux(self, tipo, registros, tela):
