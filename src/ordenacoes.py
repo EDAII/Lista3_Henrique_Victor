@@ -109,15 +109,6 @@ def quick_sort_inst_iterat(v, l, h):
 
 
 def bucket_sort(v):
-    minValue = v[0]
-    maxValue = v[0]
-
-    for i in range(0, len(v)):
-        if v[i] < minValue:
-            minValue = v[i]
-        elif v[i] > maxValue:
-            maxValue = v[i]
-
     bucketCount = 9
     buckets = []
     for i in range(0, bucketCount):

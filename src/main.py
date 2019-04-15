@@ -96,12 +96,12 @@ class Interface:
         self.B3.pack(side=LEFT)
         self.B3["command"] = self.ordenar
 
-        self.B4 = Button(self.frame3, text="Mostrar Registros (Desordenado)", width=55, bg=button_color)
+        self.B4 = Button(self.frame3, text="Mostrar Registros (Ordem de Cadastro)", width=55, bg=button_color)
         self.B4["font"] = option_button_font
         self.B4.pack(side=LEFT)
         self.B4["command"] = lambda: mostrar_registros(self.desordenado, len(self.desordenado))
 
-        self.B5 = Button(self.frame3, text="Mostrar Registros (Ordenado)", width=55, bg=button_color)
+        self.B5 = Button(self.frame3, text="Mostrar Registros (Ordenado por Ano)", width=55, bg=button_color)
         self.B5["font"] = option_button_font
         self.B5.pack(side=RIGHT)
         self.B5["command"] = self.mostrar_registros_ordenado
