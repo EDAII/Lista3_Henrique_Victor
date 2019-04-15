@@ -5,6 +5,22 @@
 
 <br>
 
+### Instalações necessárias
+- No teminal, digite os seguintes comando:
+  ```bash
+    $ pip3 install matplotlib --user
+  ```
+  ```bash
+    $ pip3 install plotly --upgrade --user
+  ```
+  ```bash
+    $ python3 -m pip install --upgrade pandas --user
+  ```
+  ```bash
+    $ sudo apt-get install python3-tk --user
+  ```
+
+
 ### Instruções de uso
 
 - No terminal, vá até o diretório do exercício, que contém, além de arquivos como o README, a pasta "src"

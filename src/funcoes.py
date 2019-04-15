@@ -4,8 +4,12 @@ import string
 import time
 import matplotlib
 import matplotlib.pyplot as plt
+import pandas as pd
+import numpy as np
 from registros import Registro
 from ordenacoes import *
+import plotly
+import plotly.graph_objs as go
 
 modelos = [
     'A1',
@@ -149,6 +153,31 @@ def mostrar_registros(registros, tamanho):
             registros[i].modelo, registros[i].placa, registros[i].ano, registros[i].dono, registros[i].ordemCadastro
         ))
         print(linha)
+    mostrar_tabela(registros, tamanho);
+
+def mostrar_tabela(registros, tamanho):
+
+    modelos = []
+    placas = []
+    anos = []
+    donos = []
+    ordemCadastros = []
+
+
+    for i in range(tamanho):
+        modelos.append(registros[i].modelo)
+        placas.append(registros[i].placa)
+        anos.append(registros[i].ano)
+        donos.append(registros[i].dono)
+        ordemCadastros.append(registros[i].ordemCadastro)
+    
+    indices = ['MODELOS', 'PLACA', 'ANO', 'DONO', 'ORDEM DE CADASTRO']
+    trace = go.Table(
+        header=dict(values=indices),
+        cells=dict(values=[modelos, placas, anos, donos, ordemCadastros]))
+
+    data = [trace]
+    plotly.offline.plot(data, filename = 'basic_table')
 
 
 def comparar_ordenacoes(registros, desordenado):
@@ -202,3 +231,4 @@ def comparar_ordenacoes(registros, desordenado):
                 
     plt.suptitle('Tempo em segundos para ordenar {} registros'.format(len(registros)))
     plt.show()
+
