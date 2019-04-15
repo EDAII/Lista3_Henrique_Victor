@@ -137,7 +137,7 @@ def registro_unico(registros, ano, placa, dono, modelo):
     registro = Registro(ano, placa, dono, modelo, ordemCadastro)
     registros.append(registro)
 
-
+"""
 def mostrar_registros(registros, tamanho):
     linha = '-' * 83
     print(linha)
@@ -151,9 +151,10 @@ def mostrar_registros(registros, tamanho):
             registros[i].modelo, registros[i].placa, registros[i].ano, registros[i].dono, registros[i].ordemCadastro
         ))
         print(linha)
-    mostrar_tabela(registros, tamanho);
+    mostrar_tabela(registros, tamanho)
+"""
 
-def mostrar_tabela(registros, tamanho):
+def mostrar_registros(registros, tamanho):
 
     modelos = []
     placas = []
@@ -169,13 +170,24 @@ def mostrar_tabela(registros, tamanho):
         donos.append(registros[i].dono)
         ordemCadastros.append(registros[i].ordemCadastro)
     
-    indices = ['MODELOS', 'PLACA', 'ANO', 'DONO', 'ORDEM DE CADASTRO']
+    indices = ['<b>MODELOS</b>', '<b>PLACA</b>', '<b>ANO</b>', '<b>DONO</b>', '<b>ORDEM DE CADASTRO</b>']
     trace = go.Table(
-        header=dict(values=indices),
-        cells=dict(values=[modelos, placas, anos, donos, ordemCadastros]))
+        header=dict(
+            values = indices, 
+            line = dict(color = '#000'),
+            fill = dict(color = 'blue'),
+            font = dict(color = '#fff', size = 20)
+            ),
+        cells=dict(
+            values = [modelos, placas, anos, donos, ordemCadastros],
+            font = dict(color = '#000', size = 14),
+            fill = dict(color = '#F1F8FB'),
+            height = 25
+            )
+    )
 
     data = [trace]
-    plotly.offline.plot(data, filename = 'basic_table')
+    plotly.offline.plot(data, filename = 'registros.html')
 
 
 def comparar_ordenacoes(registros, desordenado):
