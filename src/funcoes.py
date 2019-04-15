@@ -4,8 +4,6 @@ import string
 import time
 import matplotlib
 import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
 from registros import Registro
 from ordenacoes import *
 import plotly
@@ -65,7 +63,7 @@ modelos = [
     '208',
     '3008',
     'Cayman',
-    'RAM 2500'
+    'RAM 2500',
     'Clio',
     'Sandero',
     'Kwid',
