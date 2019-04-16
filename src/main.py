@@ -44,87 +44,87 @@ class Interface:
         self.registros = []
         self.desordenado = []
         self.ordenado = False
-        self.topo = Frame(instancia_Tk)
-        self.topo["pady"] = 50
-        self.topo.config(background=bg_color)
-        self.topo.pack()
-        self.frame1 = Frame(instancia_Tk)
-        self.frame1["pady"] = 6
-        self.frame1.config(background=bg_color)
-        self.frame1.pack()
-        self.frame2 = Frame(instancia_Tk)
-        self.frame2["pady"] = 6
-        self.frame2.config(background=bg_color)
-        self.frame2.pack()
-        self.frame3 = Frame(instancia_Tk)
-        self.frame3["pady"] = 6
-        self.frame3.config(background=bg_color)
-        self.frame3.pack()
-        self.frame4 = Frame(instancia_Tk)
-        self.frame4["pady"] = 6
-        self.frame4.config(background=bg_color)
-        self.frame4.pack()
-        self.frame5 = Frame(instancia_Tk)
-        self.frame5["pady"] = 6
-        self.frame5.config(background=bg_color)
-        self.frame5.pack()
+        topo = Frame(instancia_Tk)
+        topo["pady"] = 50
+        topo.config(background=bg_color)
+        topo.pack()
+        frame1 = Frame(instancia_Tk)
+        frame1["pady"] = 6
+        frame1.config(background=bg_color)
+        frame1.pack()
+        frame2 = Frame(instancia_Tk)
+        frame2["pady"] = 6
+        frame2.config(background=bg_color)
+        frame2.pack()
+        frame3 = Frame(instancia_Tk)
+        frame3["pady"] = 6
+        frame3.config(background=bg_color)
+        frame3.pack()
+        frame4 = Frame(instancia_Tk)
+        frame4["pady"] = 6
+        frame4.config(background=bg_color)
+        frame4.pack()
+        frame5 = Frame(instancia_Tk)
+        frame5["pady"] = 6
+        frame5.config(background=bg_color)
+        frame5.pack()
 
-        self.msg1 = Label(self.topo, text = "Quantidade de Registros: 0")
-        self.msg1["padx"] = 150
-        self.msg1["font"] = text_font
-        self.msg1.config(background=bg_color)
-        self.msg1.pack(side=LEFT)
+        self.msgResgistros = Label(topo, text = "Quantidade de Registros: 0")
+        self.msgResgistros["padx"] = 150
+        self.msgResgistros["font"] = text_font
+        self.msgResgistros.config(background=bg_color)
+        self.msgResgistros.pack(side=LEFT)
 
-        self.msg2 = Label(self.topo, text = "Tipo de Ordenacao: Nenhuma")
-        self.msg2["padx"] = 150
-        self.msg2["font"] = text_font
-        self.msg2.config(background=bg_color)
-        self.msg2.pack(side=RIGHT)
+        self.msgOrdenacao = Label(topo, text = "Tipo de Ordenacao: Nenhuma")
+        self.msgOrdenacao["padx"] = 150
+        self.msgOrdenacao["font"] = text_font
+        self.msgOrdenacao.config(background=bg_color)
+        self.msgOrdenacao.pack(side=RIGHT)
 
-        self.B1 = Button(self.frame1, text="Gerar Registros Aleatoriamente", width=55, bg=button_color)
-        self.B1["font"] = option_button_font
-        self.B1.pack(side=LEFT)
-        self.B1["command"] = self.gerar_regist_aleat
+        B1 = Button(frame1, text="Gerar Registros Aleatoriamente", width=55, bg=button_color)
+        B1["font"] = option_button_font
+        B1.pack(side=LEFT)
+        B1["command"] = self.gerar_regist_aleat
 
-        self.B2 = Button(self.frame1, text="Cadastrar Registro Individual", width=55, bg=button_color)
-        self.B2["font"] = option_button_font
-        self.B2.pack(side=RIGHT)
-        self.B2["command"] = self.cadastro
+        B2 = Button(frame1, text="Cadastrar Registro Individual", width=55, bg=button_color)
+        B2["font"] = option_button_font
+        B2.pack(side=RIGHT)
+        B2["command"] = self.cadastro
 
-        self.B3 = Button(self.frame2, text="Ordenar", width=112, bg=button_color)
-        self.B3["font"] = option_button_font
-        self.B3.pack(side=LEFT)
-        self.B3["command"] = self.ordenar
+        B3 = Button(frame2, text="Ordenar", width=112, bg=button_color)
+        B3["font"] = option_button_font
+        B3.pack(side=LEFT)
+        B3["command"] = self.ordenar
 
-        self.B4 = Button(self.frame3, text="Mostrar Registros (Ordem de Cadastro)", width=55, bg=button_color)
-        self.B4["font"] = option_button_font
-        self.B4.pack(side=LEFT)
-        self.B4["command"] = lambda: mostrar_registros(self.desordenado, len(self.desordenado))
+        B4 = Button(frame3, text="Mostrar Registros (Ordem de Cadastro)", width=55, bg=button_color)
+        B4["font"] = option_button_font
+        B4.pack(side=LEFT)
+        B4["command"] = lambda: mostrar_registros(self.desordenado, len(self.desordenado))
 
-        self.B5 = Button(self.frame3, text="Mostrar Registros (Ordenado por Ano)", width=55, bg=button_color)
-        self.B5["font"] = option_button_font
-        self.B5.pack(side=RIGHT)
-        self.B5["command"] = self.mostrar_registros_ordenado
+        B5 = Button(frame3, text="Mostrar Registros (Ordenado por Ano)", width=55, bg=button_color)
+        B5["font"] = option_button_font
+        B5.pack(side=RIGHT)
+        B5["command"] = self.mostrar_registros_ordenado
 
-        self.B6 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Registro atual)", width=55, bg=button_color)
-        self.B6["font"] = option_button_font
-        self.B6.pack(side=LEFT)
-        self.B6["command"] = lambda: comparar_ordenacoes(self.registros, self.desordenado)
+        B6 = Button(frame4, text="Comparar Metodos de Ordenacao (Registro atual)", width=55, bg=button_color)
+        B6["font"] = option_button_font
+        B6.pack(side=LEFT)
+        B6["command"] = lambda: comparar_ordenacoes(self.registros, self.desordenado)
 
-        self.B7 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55, bg=button_color)
-        self.B7["font"] = option_button_font
-        self.B7.pack(side=RIGHT)
-        self.B7["command"] = lambda: comparacoes()
+        B7 = Button(frame4, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55, bg=button_color)
+        B7["font"] = option_button_font
+        B7.pack(side=RIGHT)
+        B7["command"] = lambda: comparacoes()
 
-        self.B8 = Button(self.frame5, text="Ler Registros de Arquivo", width=55, bg=button_color)
-        self.B8["font"] = option_button_font
-        self.B8.pack(side=LEFT)
-        self.B8["command"] = self.abre_arquivo
+        B8 = Button(frame5, text="Ler Registros de Arquivo", width=55, bg=button_color)
+        B8["font"] = option_button_font
+        B8.pack(side=LEFT)
+        B8["command"] = self.abre_arquivo
 
-        self.B9 = Button(self.frame5, text="Salvar Registros em Arquivo", width=55, bg=button_color)
-        self.B9["font"] = option_button_font
-        self.B9.pack(side=RIGHT)
-        self.B9["command"] = self.salva_arquivo
+        B9 = Button(frame5, text="Salvar Registros em Arquivo", width=55, bg=button_color)
+        B9["font"] = option_button_font
+        B9.pack(side=RIGHT)
+        B9["command"] = self.salva_arquivo
     
 
     def gerar_regist_aleat(self):
@@ -176,8 +176,8 @@ class Interface:
                 self.desordenado = self.registros.copy()
                 self.ordenado = False
                 tela.destroy()
-                self.msg1["text"] = "Quantidade de Registros: {}".format(len(self.registros))
-                self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
+                self.msgResgistros["text"] = "Quantidade de Registros: {}".format(len(self.registros))
+                self.msgOrdenacao["text"] = "Tipo de Ordenacao: Nenhuma"
             else:
                 mensagem["text"] = "Numero deve ser maior do que 0"
         except ValueError:
@@ -270,8 +270,8 @@ class Interface:
                 registro_unico(self.registros, ano, placa, dono, modelo)
                 self.desordenado.append(self.registros[len(self.registros)-1])
                 self.ordenado = False
-                self.msg1["text"] = "Quantidade de Registros: {}".format(len(self.registros))
-                self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
+                self.msgResgistros["text"] = "Quantidade de Registros: {}".format(len(self.registros))
+                self.msgOrdenacao["text"] = "Tipo de Ordenacao: Nenhuma"
                 tela.destroy()
         except ValueError:
             mensagem["text"] = ano
@@ -280,19 +280,19 @@ class Interface:
     def ord_aux(self, tipo, registros, tela):
         if tipo == "MS":
             merge_sort(registros)
-            self.msg2["text"] = "Tipo de Ordenacao: Merge Sort"
+            self.msgOrdenacao["text"] = "Tipo de Ordenacao: Merge Sort"
         elif tipo == "QSIR":
             quick_sort_inst_rec(registros, 0, len(registros)-1)
-            self.msg2["text"] = "Tipo de Ordenacao: Quick Sort (Instavel e Recursivo)"
+            self.msgOrdenacao["text"] = "Tipo de Ordenacao: Quick Sort (Instavel e Recursivo)"
         elif tipo == "QSER":
             self.registros = quick_sort_est_rec(registros)
-            self.msg2["text"] = "Tipo de Ordenacao: Quick Sort (Estavel e Recursivo)"
+            self.msgOrdenacao["text"] = "Tipo de Ordenacao: Quick Sort (Estavel e Recursivo)"
         elif tipo == "QSII":
             quick_sort_inst_iterat(registros, 0, len(registros)-1)
-            self.msg2["text"] = "Tipo de Ordenacao: Quick Sort (Instavel e Interativo)"
+            self.msgOrdenacao["text"] = "Tipo de Ordenacao: Quick Sort (Instavel e Interativo)"
         else:
             self.registros = bucket_sort(registros)
-            self.msg2["text"] = "Tipo de Ordenacao: Bucket Sort"
+            self.msgOrdenacao["text"] = "Tipo de Ordenacao: Bucket Sort"
         
         self.ordenado = True
         tela.destroy()
@@ -374,8 +374,8 @@ class Interface:
                         i = 0
 
             arq.close()
-            self.msg1["text"] = "Quantidade de Registros: {}".format(len(self.registros))
-            self.msg2["text"] = "Tipo de Ordenacao: Nenhuma"
+            self.msgResgistros["text"] = "Quantidade de Registros: {}".format(len(self.registros))
+            self.msgOrdenacao["text"] = "Tipo de Ordenacao: Nenhuma"
             self.ordenado = False
         except:
             return
