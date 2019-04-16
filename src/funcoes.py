@@ -275,7 +275,7 @@ def comparacoes():
         quick_sort_inst_rec(registro, 0, len(registro)-1)
         fim = time.time()
         quickSortIR.append(fim - inicio)
-
+        
         # Quick Sort (Estavel e Recursivo) - QSER
         registro = desordenado.copy()
         inicio = time.time()
@@ -289,6 +289,7 @@ def comparacoes():
         quick_sort_inst_iterat(registro, 0, len(registro)-1)
         fim = time.time()
         quickSortII.append(fim - inicio)
+        
 
         # Bucket Sort - BS
         registro = desordenado.copy()
@@ -297,6 +298,54 @@ def comparacoes():
         fim = time.time()
         bucket.append(fim - inicio)
 
+    # Data for plotting
+    x = []
+
+    for i in range(16):
+        z = 2**(i+1)
+        x.append(z)
+
+    t = x
+
+    fig, ax = plt.subplots()
+    ax.set_title('Comparação entre os Algoritmos')
+    ax.set(xlabel='Quantidade de elementos', ylabel='Tempo (s)')
+    line1, = ax.plot(t, merge, lw=2, color='red', label='Merge Sort')
+    line2, = ax.plot(t, bucket, lw=2, color='blue', label='BucketSort')
+    line3, = ax.plot(t, quickSortIR, lw=2, color='green', label='QuickSort IR')
+    line4, = ax.plot(t, quickSortII, lw=2, color='cyan', label='QuickSort II')
+    line5, = ax.plot(t, quickSortER, lw=2, color='pink', label='QuickSort ER')
+    leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
+    leg.get_frame().set_alpha(0.4)
+
+
+    # we will set up a dict mapping legend line to orig line, and enable
+    # picking on the legend line
+    lines = [line1, line2, line3, line4, line5]
+    lined = dict()
+    for legline, origline in zip(leg.get_lines(), lines):
+        legline.set_picker(5)  # 5 pts tolerance
+        lined[legline] = origline
+
+
+    def onpick(event):
+        # on the pick event, find the orig line corresponding to the
+        # legend proxy line, and toggle the visibility
+        legline = event.artist
+        origline = lined[legline]
+        vis = not origline.get_visible()
+        origline.set_visible(vis)
+        # Change the alpha on the line in the legend so we can see what lines
+        # have been toggled
+        if vis:
+            legline.set_alpha(1.0)
+        else:
+            legline.set_alpha(0.2)
+        fig.canvas.draw()
+
+    fig.canvas.mpl_connect('pick_event', onpick)
+
+    plt.show()
 
     print(merge)
     print(quickSortER)
