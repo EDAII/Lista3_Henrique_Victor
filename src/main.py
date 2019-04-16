@@ -114,7 +114,7 @@ class Interface:
         self.B7 = Button(self.frame4, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55, bg=button_color)
         self.B7["font"] = option_button_font
         self.B7.pack(side=RIGHT)
-        #self.B7["command"] = lambda: 
+        self.B7["command"] = lambda: comparacoes()
 
         self.B8 = Button(self.frame5, text="Ler Registros de Arquivo", width=55, bg=button_color)
         self.B8["font"] = option_button_font

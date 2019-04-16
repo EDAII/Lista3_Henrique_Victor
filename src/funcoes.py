@@ -137,6 +137,7 @@ def registro_unico(registros, ano, placa, dono, modelo):
     registro = Registro(ano, placa, dono, modelo, ordemCadastro)
     registros.append(registro)
 
+
 """
 def mostrar_registros(registros, tamanho):
     linha = '-' * 83
@@ -154,6 +155,7 @@ def mostrar_registros(registros, tamanho):
     mostrar_tabela(registros, tamanho)
 """
 
+
 def mostrar_registros(registros, tamanho):
 
     modelos = []
@@ -162,32 +164,32 @@ def mostrar_registros(registros, tamanho):
     donos = []
     ordemCadastros = []
 
-
     for i in range(tamanho):
         modelos.append(registros[i].modelo)
         placas.append(registros[i].placa)
         anos.append(registros[i].ano)
         donos.append(registros[i].dono)
         ordemCadastros.append(registros[i].ordemCadastro)
-    
-    indices = ['<b>MODELOS</b>', '<b>PLACA</b>', '<b>ANO</b>', '<b>DONO</b>', '<b>ORDEM DE CADASTRO</b>']
+
+    indices = ['<b>MODELOS</b>', '<b>PLACA</b>', '<b>ANO</b>',
+               '<b>DONO</b>', '<b>ORDEM DE CADASTRO</b>']
     trace = go.Table(
         header=dict(
-            values = indices, 
-            line = dict(color = '#000'),
-            fill = dict(color = 'blue'),
-            font = dict(color = '#fff', size = 20)
-            ),
+            values=indices,
+            line=dict(color='#000'),
+            fill=dict(color='blue'),
+            font=dict(color='#fff', size=20)
+        ),
         cells=dict(
-            values = [modelos, placas, anos, donos, ordemCadastros],
-            font = dict(color = '#000', size = 14),
-            fill = dict(color = '#F1F8FB'),
-            height = 25
-            )
+            values=[modelos, placas, anos, donos, ordemCadastros],
+            font=dict(color='#000', size=14),
+            fill=dict(color='#F1F8FB'),
+            height=25
+        )
     )
 
     data = [trace]
-    plotly.offline.plot(data, filename = 'registros.html')
+    plotly.offline.plot(data, filename='registros.html')
 
 
 def comparar_ordenacoes(registros, desordenado):
@@ -197,39 +199,41 @@ def comparar_ordenacoes(registros, desordenado):
     registros = desordenado.copy()
     inicio = time.time()
     merge_sort(registros)
-    fim = time.time()         
+    fim = time.time()
     lista_tempos['MS'] = (fim - inicio)
-    
+
     # Quick Sort (Instavel e Recursivo) - QSIR
     registros = desordenado.copy()
     inicio = time.time()
     quick_sort_inst_rec(registros, 0, len(registros)-1)
-    fim = time.time()         
+    fim = time.time()
     lista_tempos['QSIR'] = (fim - inicio)
-    
+
     # Quick Sort (Estavel e Recursivo) - QSER
     registros = desordenado.copy()
     inicio = time.time()
     registros = quick_sort_est_rec(registros)
-    fim = time.time()         
+    fim = time.time()
     lista_tempos['QSER'] = (fim - inicio)
 
     # Quick Sort (Instavel e Interativo) - QSII
     registros = desordenado.copy()
     inicio = time.time()
     quick_sort_inst_iterat(registros, 0, len(registros)-1)
-    fim = time.time()         
+    fim = time.time()
     lista_tempos['QSII'] = (fim - inicio)
-    
+
     # Bucket Sort - BS
     registros = desordenado.copy()
     inicio = time.time()
     bucket_sort(registros)
-    fim = time.time()         
+    fim = time.time()
     lista_tempos['BS'] = (fim - inicio)
 
-    tipos = ['Merge Sort', 'Quick Sort IR', 'Quick Sort ER', 'Quick Sort II', 'Bucket Sort']
-    tempos = [lista_tempos['MS'], lista_tempos['QSIR'], lista_tempos['QSER'], lista_tempos['QSII'], lista_tempos['BS']]
+    tipos = ['Merge Sort', 'Quick Sort IR',
+             'Quick Sort ER', 'Quick Sort II', 'Bucket Sort']
+    tempos = [lista_tempos['MS'], lista_tempos['QSIR'],
+              lista_tempos['QSER'], lista_tempos['QSII'], lista_tempos['BS']]
 
     _, ax = plt.subplots(figsize=(16, 9))
     ax.set(xlabel='Metodo de Ordenacao', ylabel='Tempo (s)')
@@ -237,8 +241,67 @@ def comparar_ordenacoes(registros, desordenado):
     plt.bar(tipos, tempos)
 
     for i, v in enumerate(tempos):
-        plt.text(i-0.4, max(tempos)/100, " "+str(v), color='black', va='center', fontweight='bold', fontsize=12)
-                
-    plt.suptitle('Tempo em segundos para ordenar {} registros'.format(len(registros)))
+        plt.text(i-0.4, max(tempos)/100, " "+str(v), color='black',
+                 va='center', fontweight='bold', fontsize=12)
+
+    plt.suptitle(
+        'Tempo em segundos para ordenar {} registros'.format(len(registros)))
     plt.show()
 
+
+def comparacoes():
+    registro = []
+    merge = []
+    quickSortIR = []
+    quickSortER = []
+    quickSortII = []
+    bucket = []
+
+    for i in range(16):
+        gerar_registros_aleatorios(registro, 2**(i+1))
+        desordenado = registro.copy()
+        # ordenar e guardar os tempos
+
+        # Merge Sort - MS
+        registro = desordenado.copy()
+        inicio = time.time()
+        merge_sort(registro)
+        fim = time.time()
+        merge.append(fim - inicio)
+
+        # Quick Sort (Instavel e Recursivo) - QSIR
+        registro = desordenado.copy()
+        inicio = time.time()
+        quick_sort_inst_rec(registro, 0, len(registro)-1)
+        fim = time.time()
+        quickSortIR.append(fim - inicio)
+
+        # Quick Sort (Estavel e Recursivo) - QSER
+        registro = desordenado.copy()
+        inicio = time.time()
+        registro = quick_sort_est_rec(registro)
+        fim = time.time()
+        quickSortER.append(fim - inicio)
+
+        # Quick Sort (Instavel e Interativo) - QSII
+        registro = desordenado.copy()
+        inicio = time.time()
+        quick_sort_inst_iterat(registro, 0, len(registro)-1)
+        fim = time.time()
+        quickSortII.append(fim - inicio)
+
+        # Bucket Sort - BS
+        registro = desordenado.copy()
+        inicio = time.time()
+        bucket_sort(registro)
+        fim = time.time()
+        bucket.append(fim - inicio)
+
+
+    print(merge)
+    print(quickSortER)
+    print(quickSortII)
+    print(quickSortIR)
+    print(bucket)
+
+        # printar grafico
