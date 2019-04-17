@@ -8,6 +8,7 @@ from registros import Registro
 from ordenacoes import *
 import plotly
 import plotly.graph_objs as go
+import numpy as np
 
 modelos = [
     'A1',
@@ -251,13 +252,14 @@ def comparar_ordenacoes(registros, desordenado):
 
 def comparacoes():
     registro = []
+    # merge = np.array([])
+    quickSortIR = np.array([])
+    quickSortER = np.array([])
+    quickSortII = np.array([])
+    bucket = np.array([])
     merge = []
-    quickSortIR = []
-    quickSortER = []
-    quickSortII = []
-    bucket = []
 
-    for i in range(16):
+    for i in range(19):
         gerar_registros_aleatorios(registro, 2**(i+1))
         desordenado = registro.copy()
         # ordenar e guardar os tempos
@@ -267,43 +269,60 @@ def comparacoes():
         inicio = time.time()
         merge_sort(registro)
         fim = time.time()
-        merge.append(fim - inicio)
-
-        # Quick Sort (Instavel e Recursivo) - QSIR
-        registro = desordenado.copy()
-        inicio = time.time()
-        quick_sort_inst_rec(registro, 0, len(registro)-1)
-        fim = time.time()
-        quickSortIR.append(fim - inicio)
-        
-        # Quick Sort (Estavel e Recursivo) - QSER
-        registro = desordenado.copy()
-        inicio = time.time()
-        registro = quick_sort_est_rec(registro)
-        fim = time.time()
-        quickSortER.append(fim - inicio)
-
-        # Quick Sort (Instavel e Interativo) - QSII
-        registro = desordenado.copy()
-        inicio = time.time()
-        quick_sort_inst_iterat(registro, 0, len(registro)-1)
-        fim = time.time()
-        quickSortII.append(fim - inicio)
-        
+        merge = np.append(merge, (fim - inicio))
+        # merge.append(fim - inicio)
 
         # Bucket Sort - BS
         registro = desordenado.copy()
         inicio = time.time()
         bucket_sort(registro)
         fim = time.time()
-        bucket.append(fim - inicio)
+        bucket = np.append(bucket, (fim - inicio))
+        # bucket.append(fim - inicio)
+
+        if i <= 15:
+            # Quick Sort (Instavel e Recursivo) - QSIR
+            registro = desordenado.copy()
+            inicio = time.time()
+            quick_sort_inst_rec(registro, 0, len(registro)-1)
+            fim = time.time()
+            quickSortIR = np.append(quickSortIR, (fim - inicio))
+            #quickSortIR.append(fim - inicio)
+            
+            
+            # Quick Sort (Estavel e Recursivo) - QSER
+            registro = desordenado.copy()
+            inicio = time.time()
+            registro = quick_sort_est_rec(registro)
+            fim = time.time()
+            quickSortER = np.append(quickSortER, (fim - inicio))
+            #quickSortER.append(fim - inicio)
+
+            # Quick Sort (Instavel e Interativo) - QSII
+            registro = desordenado.copy()
+            inicio = time.time()
+            quick_sort_inst_iterat(registro, 0, len(registro)-1)
+            fim = time.time()
+            quickSortII = np.append(quickSortII, (fim - inicio))
+            # quickSortII.append(fim - inicio)
+            
+
+        print(merge)
+        print(quickSortER)
+        print(quickSortII)
+        print(quickSortIR)
+        print(bucket)
 
     # Data for plotting
-    x = []
+    x = np.array([])
 
-    for i in range(16):
+    for i in range(19):
         z = 2**(i+1)
-        x.append(z)
+        x = np.append(x, z)
+
+        if i <= 15:
+            t_menor = np.copy(x)
+        # x.append(z)
 
     t = x
 
@@ -312,9 +331,9 @@ def comparacoes():
     ax.set(xlabel='Quantidade de elementos', ylabel='Tempo (s)')
     line1, = ax.plot(t, merge, lw=2, color='red', label='Merge Sort')
     line2, = ax.plot(t, bucket, lw=2, color='blue', label='BucketSort')
-    line3, = ax.plot(t, quickSortIR, lw=2, color='green', label='QuickSort IR')
-    line4, = ax.plot(t, quickSortII, lw=2, color='cyan', label='QuickSort II')
-    line5, = ax.plot(t, quickSortER, lw=2, color='pink', label='QuickSort ER')
+    line3, = ax.plot(t_menor, quickSortIR, lw=2, color='green', label='QuickSort IR')
+    line4, = ax.plot(t_menor, quickSortII, lw=2, color='cyan', label='QuickSort II')
+    line5, = ax.plot(t_menor, quickSortER, lw=2, color='pink', label='QuickSort ER')
     leg = ax.legend(loc='upper left', fancybox=True, shadow=True)
     leg.get_frame().set_alpha(0.4)
 
