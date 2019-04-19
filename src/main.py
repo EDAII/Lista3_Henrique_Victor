@@ -44,124 +44,82 @@ class Interface:
         self.registros = []
         self.desordenado = []
         self.ordenado = False
-        topo = Frame(instancia_Tk)
-        topo["pady"] = 50
-        topo.config(background=bg_color)
+        
+        topo = Frame(instancia_Tk, background=bg_color, pady=50)
         topo.pack()
-        frame1 = Frame(instancia_Tk)
-        frame1["pady"] = 6
-        frame1.config(background=bg_color)
+        frame1 = Frame(instancia_Tk, background=bg_color, pady=6)
         frame1.pack()
-        frame2 = Frame(instancia_Tk)
-        frame2["pady"] = 6
-        frame2.config(background=bg_color)
+        frame2 = Frame(instancia_Tk, background=bg_color, pady=6)
         frame2.pack()
-        frame3 = Frame(instancia_Tk)
-        frame3["pady"] = 6
-        frame3.config(background=bg_color)
+        frame3 = Frame(instancia_Tk, background=bg_color, pady=6)
         frame3.pack()
-        frame4 = Frame(instancia_Tk)
-        frame4["pady"] = 6
-        frame4.config(background=bg_color)
+        frame4 = Frame(instancia_Tk, background=bg_color, pady=6)
         frame4.pack()
-        frame5 = Frame(instancia_Tk)
-        frame5["pady"] = 6
-        frame5.config(background=bg_color)
+        frame5 = Frame(instancia_Tk, background=bg_color, pady=6)
         frame5.pack()
 
         self.msgResgistros = Label(topo, text = "Quantidade de Registros: 0")
-        self.msgResgistros["padx"] = 150
-        self.msgResgistros["font"] = text_font
-        self.msgResgistros.config(background=bg_color)
+        self.msgResgistros.config(background=bg_color, font=text_font, padx=150)
         self.msgResgistros.pack(side=LEFT)
 
         self.msgOrdenacao = Label(topo, text = "Tipo de Ordenacao: Nenhuma")
-        self.msgOrdenacao["padx"] = 150
-        self.msgOrdenacao["font"] = text_font
-        self.msgOrdenacao.config(background=bg_color)
+        self.msgOrdenacao.config(background=bg_color, font=text_font, padx=150)
         self.msgOrdenacao.pack(side=RIGHT)
 
-        B1 = Button(frame1, text="Gerar Registros Aleatoriamente", width=55, bg=button_color)
-        B1["font"] = option_button_font
+        B1 = Button(frame1, text="Gerar Registros Aleatoriamente", width=55, bg=button_color, font=option_button_font, command=self.gerar_regist_aleat)
         B1.pack(side=LEFT)
-        B1["command"] = self.gerar_regist_aleat
 
-        B2 = Button(frame1, text="Cadastrar Registro Individual", width=55, bg=button_color)
-        B2["font"] = option_button_font
+        B2 = Button(frame1, text="Cadastrar Registro Individual", width=55, bg=button_color, font=option_button_font, command=self.cadastro)
         B2.pack(side=RIGHT)
-        B2["command"] = self.cadastro
 
-        B3 = Button(frame2, text="Ordenar", width=112, bg=button_color)
-        B3["font"] = option_button_font
+        B3 = Button(frame2, text="Ordenar", width=112, bg=button_color, font=option_button_font, command=self.ordenar)
         B3.pack(side=LEFT)
-        B3["command"] = self.ordenar
 
-        B4 = Button(frame3, text="Mostrar Registros (Ordem de Cadastro)", width=55, bg=button_color)
-        B4["font"] = option_button_font
+        B4 = Button(frame3, text="Mostrar Registros (Ordem de Cadastro)", width=55, bg=button_color, font=option_button_font, command=lambda: mostrar_registros(self.desordenado, len(self.desordenado)))
         B4.pack(side=LEFT)
-        B4["command"] = lambda: mostrar_registros(self.desordenado, len(self.desordenado))
 
-        B5 = Button(frame3, text="Mostrar Registros (Ordenado por Ano)", width=55, bg=button_color)
-        B5["font"] = option_button_font
+        B5 = Button(frame3, text="Mostrar Registros (Ordenado por Ano)", width=55, bg=button_color, font=option_button_font, command=self.mostrar_registros_ordenado)
         B5.pack(side=RIGHT)
-        B5["command"] = self.mostrar_registros_ordenado
 
-        B6 = Button(frame4, text="Comparar Metodos de Ordenacao (Registro atual)", width=55, bg=button_color)
-        B6["font"] = option_button_font
+        B6 = Button(frame4, text="Comparar Metodos de Ordenacao (Registro atual)", width=55, bg=button_color, font=option_button_font, command=lambda: comparar_ordenacoes(self.registros, self.desordenado))
         B6.pack(side=LEFT)
-        B6["command"] = lambda: comparar_ordenacoes(self.registros, self.desordenado)
 
-        B7 = Button(frame4, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55, bg=button_color)
-        B7["font"] = option_button_font
+        B7 = Button(frame4, text="Comparar Metodos de Ordenacao (Varios Registros Aleatorios)", width=55, bg=button_color, font=option_button_font, command=comparacoes)
         B7.pack(side=RIGHT)
-        B7["command"] = lambda: comparacoes()
 
-        B8 = Button(frame5, text="Ler Registros de Arquivo", width=55, bg=button_color)
-        B8["font"] = option_button_font
+        B8 = Button(frame5, text="Ler Registros de Arquivo", width=55, bg=button_color, font=option_button_font, command=self.abre_arquivo)
         B8.pack(side=LEFT)
-        B8["command"] = self.abre_arquivo
 
-        B9 = Button(frame5, text="Salvar Registros em Arquivo", width=55, bg=button_color)
-        B9["font"] = option_button_font
+        B9 = Button(frame5, text="Salvar Registros em Arquivo", width=55, bg=button_color, font=option_button_font, command=self.salva_arquivo)
         B9.pack(side=RIGHT)
-        B9["command"] = self.salva_arquivo
     
 
     def gerar_regist_aleat(self):
         tela = Tk()
         tela.title('Gerar Registros Aleatoriamente')
-        texto = Frame(tela)
-        campo = Frame(tela)
-        botoes = Frame(tela)
-        msg = Frame(tela)
-        texto["pady"] = 10
-        campo["pady"] = 10
-        botoes["pady"] = 10
-        msg["pady"] = 10
+
+        texto = Frame(tela, pady=10)
         texto.pack()
+        campo = Frame(tela, pady=10)
         campo.pack()
+        botoes = Frame(tela, pady=10)
         botoes.pack()
+        msg = Frame(tela, pady=10)
         msg.pack()
 
-        text = Label(texto, text="Digite quantos registros voce quer criar")
-        text["font"] = text_font
+        text = Label(texto, text="Digite quantos registros voce quer criar", font=text_font)
         text.pack()
 
         valor = Entry(campo)
         valor.pack()
 
-        mensagem = Label(msg, text=" ")
-        mensagem["font"] = error_msg_font
+        mensagem = Label(msg, text=" ", font=error_msg_font)
         mensagem.pack()
 
-        botaoCancel = Button(botoes, text="CANCELAR", bg='red2')
-        botaoCancel["command"] = tela.destroy
-        botaoCancel["font"] = confirmation_button_font
+        botaoCancel = Button(botoes, text="CANCELAR", font=confirmation_button_font, bg='red2', command=tela.destroy)
         botaoCancel.pack(side=LEFT)
 
-        botaoSend = Button(botoes, text="ENVIAR", bg='green2')
-        botaoSend["command"] = lambda: self.verif_valor(valor.get(), mensagem, tela)
-        botaoSend["font"] = confirmation_button_font
+        botaoSend = Button(botoes, text="ENVIAR", font=confirmation_button_font, bg='green2', command=lambda: self.verif_valor(valor.get(), mensagem, tela))
         botaoSend.pack(side=RIGHT)
 
         tela.geometry("600x200+700+400")
@@ -187,47 +145,36 @@ class Interface:
     def cadastro(self):
         tela = Tk()
         tela.title('Cadastrar Registro Individual')
-        texto = Frame(tela)
-        frame1 = Frame(tela)
-        frame2 = Frame(tela)
-        frame3 = Frame(tela)
-        frame4 = Frame(tela)
-        botoes = Frame(tela)
-        msg = Frame(tela)
-        texto["pady"] = 10
-        frame1["pady"] = 10
-        frame2["pady"] = 10
-        frame3["pady"] = 10
-        frame4["pady"] = 10
-        botoes["pady"] = 10
-        msg["pady"] = 10
+
+        texto = Frame(tela, pady=10)
         texto.pack()
+        frame1 = Frame(tela, pady=10)
         frame1.pack()
+        frame2 = Frame(tela, pady=10)
         frame2.pack()
+        frame3 = Frame(tela, pady=10)
         frame3.pack()
+        frame4 = Frame(tela, pady=10)
         frame4.pack()
-        botoes.pack()
+        botoes = Frame(tela, pady=10)
+        botoes.pack()        
+        msg = Frame(tela, pady=10)
         msg.pack()
 
-        text = Label(texto, text="Digite quantos registros voce quer criar")
-        text["font"] = text_font
-        text["pady"] = 10
+        text = Label(texto, text="Digite os dados do Registro", font=text_font, pady=10)
         text.pack()
 
-        anotext = Label(frame1, text="Ano: ")
-        anotext["padx"] = 13
+        anotext = Label(frame1, text="Ano: ", padx=13)
         anotext.pack(side=LEFT)
         ano = Entry(frame1)
         ano.pack(side=RIGHT)
 
-        placatext = Label(frame2, text="Placa: ")
-        placatext["padx"] = 8
+        placatext = Label(frame2, text="Placa: ", padx=8)
         placatext.pack(side=LEFT)
         placa = Entry(frame2)
         placa.pack(side=RIGHT)
 
-        donotext = Label(frame3, text="Dono: ")
-        donotext["padx"] = 8
+        donotext = Label(frame3, text="Dono: ", padx=8)
         donotext.pack(side=LEFT)
         dono = Entry(frame3)
         dono.pack(side=RIGHT)
@@ -237,18 +184,13 @@ class Interface:
         modelo = Entry(frame4)
         modelo.pack(side=RIGHT)
 
-        mensagem = Label(msg, text=" ")
-        mensagem["font"] = error_msg_font
+        mensagem = Label(msg, text=" ", font=error_msg_font)
         mensagem.pack()
 
-        botaoCancel = Button(botoes, text="CANCELAR", bg='red2')
-        botaoCancel["command"] = tela.destroy
-        botaoCancel["font"] = confirmation_button_font
+        botaoCancel = Button(botoes, text="CANCELAR", font=confirmation_button_font, bg='red2', command=tela.destroy)
         botaoCancel.pack(side=LEFT)
 
-        botaoSend = Button(botoes, text="ENVIAR", bg='green2')
-        botaoSend["command"] = lambda: self.verif_cadastro(ano.get(), placa.get(), dono.get(), modelo.get(), mensagem, tela)
-        botaoSend["font"] = confirmation_button_font
+        botaoSend = Button(botoes, text="ENVIAR", font=confirmation_button_font, bg='green2', command=lambda: self.verif_cadastro(ano.get(), placa.get(), dono.get(), modelo.get(), mensagem, tela))
         botaoSend.pack(side=RIGHT)
 
         tela.geometry("650x350+650+300")
@@ -306,40 +248,29 @@ class Interface:
         else:
             tela = Tk()
             tela.title('Ordenar')
+
             top = Frame(tela)
             middle = Frame(tela)
             top.pack()
             middle.pack()
 
-            text = Label(top, text="Escolha um dos metodos abaixo")
-            text["pady"] = 10
-            text["font"] = text_font
+            text = Label(top, text="Escolha um dos metodos abaixo", font=text_font, pady=10)
             text.grid(row=0, pady=5)
 
-            B1 = Button(middle, text="Merge Sort", width=30, bg=button_color)
-            B1["font"] = option_button_font
+            B1 = Button(middle, text="Merge Sort", width=30, bg=button_color, font=option_button_font, command=lambda: self.ord_aux("MS", self.registros, tela))
             B1.grid(row=1, padx=10, pady=5)
-            B1["command"] = lambda: self.ord_aux("MS", self.registros, tela)
 
-            B2 = Button(middle, text="Quick Sort (Instavel e Recursivo)", width=30, bg=button_color)
-            B2["font"] = option_button_font
+            B2 = Button(middle, text="Quick Sort (Instavel e Recursivo)", width=30, bg=button_color, font=option_button_font, command=lambda: self.ord_aux("QSIR", self.registros, tela))
             B2.grid(row=2, padx=10, pady=5)
-            B2["command"] = lambda: self.ord_aux("QSIR", self.registros, tela)
 
-            B3 = Button(middle, text="Quick Sort (Estavel e Recursivo)", width=30, bg=button_color)
-            B3["font"] = option_button_font
+            B3 = Button(middle, text="Quick Sort (Estavel e Recursivo)", width=30, bg=button_color, font=option_button_font, command=lambda: self.ord_aux("QSER", self.registros, tela))
             B3.grid(row=3, padx=10, pady=5)
-            B3["command"] = lambda: self.ord_aux("QSER", self.registros, tela)
 
-            B4 = Button(middle, text="Quick Sort (Instavel e Interativo)", width=30, bg=button_color)
-            B4["font"] = option_button_font
+            B4 = Button(middle, text="Quick Sort (Instavel e Interativo)", width=30, bg=button_color, font=option_button_font, command=lambda: self.ord_aux("QSII", self.registros, tela))
             B4.grid(row=4, padx=10, pady=5)
-            B4["command"] = lambda: self.ord_aux("QSII", self.registros, tela)
 
-            B5 = Button(middle, text="Bucket Sort", width=30, bg=button_color)
-            B5["font"] = option_button_font
+            B5 = Button(middle, text="Bucket Sort", width=30, bg=button_color, font=option_button_font, command=lambda: self.ord_aux("BS", self.registros, tela))
             B5.grid(row=5, padx=10, pady=5)
-            B5["command"] = lambda: self.ord_aux("BS", self.registros, tela)
 
             tela.geometry("500x330+750+300")
             tela.mainloop()
@@ -406,13 +337,10 @@ class Interface:
         msg.pack()
         botaoFrame.pack()
 
-        text = Label(msg, text=mensagem)
-        text["font"] = text_font
-        text["pady"] = 10
+        text = Label(msg, text=mensagem, font=text_font, pady=10)
         text.pack()
 
-        botao = Button(botaoFrame, text=" OK ")
-        botao["command"] = tela.destroy
+        botao = Button(botaoFrame, text=" OK ", command=tela.destroy)
         botao.pack()
 
         tela.geometry("550x100+700+400")

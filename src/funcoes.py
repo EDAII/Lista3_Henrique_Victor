@@ -11,7 +11,7 @@ import plotly.graph_objs as go
 import numpy as np
 from threading import Thread
 
-modelos = [
+modelos = (
     'A1',
     'A3 Sedan',
     'Agile',
@@ -98,8 +98,7 @@ modelos = [
     'Mustang',
     '350Z',
     '370Z'
-
-]
+)
 
 
 def clear():
