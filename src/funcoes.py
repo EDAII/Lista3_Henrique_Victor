@@ -9,6 +9,7 @@ from ordenacoes import *
 import plotly
 import plotly.graph_objs as go
 import numpy as np
+from threading import Thread
 
 modelos = [
     'A1',
@@ -250,69 +251,83 @@ def comparar_ordenacoes(registros, desordenado):
     plt.show()
 
 
+def tempo_merge_sort(desordenado, merge):
+    registro = desordenado.copy()
+    inicio = time.time()
+    merge_sort(registro)
+    fim = time.time()
+    merge.append(fim - inicio)
+
+def tempo_bucket_sort(desordenado, bucket):
+    registro = desordenado.copy()
+    inicio = time.time()
+    bucket_sort(registro)
+    fim = time.time()
+    bucket.append(fim - inicio)
+
+def tempo_quicksort_IR(desordenado, quickSortIR):
+    registro = desordenado.copy()
+    inicio = time.time()
+    quick_sort_inst_rec(registro, 0, len(registro)-1)
+    fim = time.time()
+    quickSortIR.append(fim - inicio)
+
+def tempo_quicksort_ER(desordenado, quickSortER):
+    registro = desordenado.copy()
+    inicio = time.time()
+    registro = quick_sort_est_rec(registro)
+    fim = time.time()
+    quickSortER.append(fim - inicio)
+
+def tempo_quicksort_II(desordenado, quickSortII):
+    registro = desordenado.copy()
+    inicio = time.time()
+    quick_sort_inst_iterat(registro, 0, len(registro)-1)
+    fim = time.time()
+    quickSortII.append(fim - inicio)
+
+
+
 def comparacoes():
     registro = []
-    # merge = np.array([])
-    quickSortIR = np.array([])
-    quickSortER = np.array([])
-    quickSortII = np.array([])
-    bucket = np.array([])
     merge = []
+    bucket = []
+    quickSortIR = []
+    quickSortER = []
+    quickSortII = []
+    
 
     for i in range(19):
         gerar_registros_aleatorios(registro, 2**(i+1))
         desordenado = registro.copy()
-        # ordenar e guardar os tempos
 
-        # Merge Sort - MS
-        registro = desordenado.copy()
-        inicio = time.time()
-        merge_sort(registro)
-        fim = time.time()
-        merge = np.append(merge, (fim - inicio))
-        # merge.append(fim - inicio)
-
-        # Bucket Sort - BS
-        registro = desordenado.copy()
-        inicio = time.time()
-        bucket_sort(registro)
-        fim = time.time()
-        bucket = np.append(bucket, (fim - inicio))
-        # bucket.append(fim - inicio)
+        merge_thread = Thread(target=tempo_merge_sort, args=[desordenado, merge])
+        bucket_thread = Thread(target=tempo_bucket_sort, args=[desordenado, bucket])
+        
+        merge_thread.start()
+        bucket_thread.start()
 
         if i <= 15:
-            # Quick Sort (Instavel e Recursivo) - QSIR
-            registro = desordenado.copy()
-            inicio = time.time()
-            quick_sort_inst_rec(registro, 0, len(registro)-1)
-            fim = time.time()
-            quickSortIR = np.append(quickSortIR, (fim - inicio))
-            #quickSortIR.append(fim - inicio)
             
+            quickIR_thread = Thread(target=tempo_quicksort_IR, args=[desordenado, quickSortIR])
+            quickER_thread = Thread(target=tempo_quicksort_ER, args=[desordenado, quickSortER])
+            quickII_thread = Thread(target=tempo_quicksort_IR, args=[desordenado, quickSortII])
             
-            # Quick Sort (Estavel e Recursivo) - QSER
-            registro = desordenado.copy()
-            inicio = time.time()
-            registro = quick_sort_est_rec(registro)
-            fim = time.time()
-            quickSortER = np.append(quickSortER, (fim - inicio))
-            #quickSortER.append(fim - inicio)
+            quickIR_thread.start()
+            quickER_thread.start()
+            quickII_thread.start()
 
-            # Quick Sort (Instavel e Interativo) - QSII
-            registro = desordenado.copy()
-            inicio = time.time()
-            quick_sort_inst_iterat(registro, 0, len(registro)-1)
-            fim = time.time()
-            quickSortII = np.append(quickSortII, (fim - inicio))
-            # quickSortII.append(fim - inicio)
-            
+        quickIR_thread.join()
+        quickER_thread.join()
+        quickII_thread.join()
+        bucket_thread.join()
+        merge_thread.join()
 
-        print(merge)
-        print(quickSortER)
-        print(quickSortII)
-        print(quickSortIR)
-        print(bucket)
 
+
+    printar_grafico(merge, bucket, quickSortIR, quickSortII, quickSortER)
+
+def printar_grafico(merge, bucket, quickSortIR, quickSortII, quickSortER):
     # Data for plotting
     x = np.array([])
 
@@ -366,10 +381,4 @@ def comparacoes():
 
     plt.show()
 
-    print(merge)
-    print(quickSortER)
-    print(quickSortII)
-    print(quickSortIR)
-    print(bucket)
 
-        # printar grafico
