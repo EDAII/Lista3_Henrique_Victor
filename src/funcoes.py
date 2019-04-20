@@ -11,6 +11,9 @@ import plotly.graph_objs as go
 import numpy as np
 from threading import Thread
 
+potencia_maxima = 19
+limite_quick = 15
+
 modelos = (
     'A1',
     'A3 Sedan',
@@ -107,7 +110,6 @@ def clear():
 
 
 def gerar_registros_aleatorios(registros, tamanho):
-
     maiuscula = string.ascii_uppercase
     minuscula = string.ascii_lowercase
     numeros = string.digits
@@ -129,32 +131,13 @@ def gerar_registros_aleatorios(registros, tamanho):
 
         ordemCadastro = i+1
 
-        registro = Registro(ano, placa, dono, modelo, ordemCadastro)
-        registros.append(registro)
+        registros.append(Registro(ano, placa, dono, modelo, ordemCadastro))
 
 
 def registro_unico(registros, ano, placa, dono, modelo):
     ordemCadastro = len(registros) + 1
     registro = Registro(ano, placa, dono, modelo, ordemCadastro)
     registros.append(registro)
-
-
-"""
-def mostrar_registros(registros, tamanho):
-    linha = '-' * 83
-    print(linha)
-
-    print("|{:^81}|".format("REGISTROS DE {} VEICULOS CADASTRADOS".format(tamanho)))
-    print(linha)
-    print('|      MODELO      |   PLACA   |   ANO   |      DONO      |   ORDEM DE CADASTRO   |')
-    print(linha)
-    for i in range(tamanho):
-        print("|{:^18}|{:^11}|{:^9}|{:^16}|{:^23}|".format(
-            registros[i].modelo, registros[i].placa, registros[i].ano, registros[i].dono, registros[i].ordemCadastro
-        ))
-        print(linha)
-    mostrar_tabela(registros, tamanho)
-"""
 
 
 def mostrar_registros(registros, tamanho):
@@ -250,79 +233,91 @@ def comparar_ordenacoes(registros, desordenado):
     plt.show()
 
 
-def tempo_merge_sort(desordenado, merge):
-    registro = desordenado.copy()
-    inicio = time.time()
-    merge_sort(registro)
-    fim = time.time()
-    merge.append(fim - inicio)
+def tempo_merge_sort(reg_merge, merge):
+    for i in range(potencia_maxima):
+        inicio = time.time()
+        merge_sort(reg_merge[i])
+        fim = time.time()
+        merge.append(fim - inicio)
 
-def tempo_bucket_sort(desordenado, bucket):
-    registro = desordenado.copy()
-    inicio = time.time()
-    bucket_sort(registro)
-    fim = time.time()
-    bucket.append(fim - inicio)
+def tempo_bucket_sort(reg_bucket, bucket):
+    for i in range(potencia_maxima):
+        inicio = time.time()
+        bucket_sort(reg_bucket[i])
+        fim = time.time()
+        bucket.append(fim - inicio)
 
-def tempo_quicksort_IR(desordenado, quickSortIR):
-    registro = desordenado.copy()
-    inicio = time.time()
-    quick_sort_inst_rec(registro, 0, len(registro)-1)
-    fim = time.time()
-    quickSortIR.append(fim - inicio)
+def tempo_quicksort_IR(reg_quickSortIR, quickSortIR):
+    for i in range(limite_quick):
+        inicio = time.time()
+        quick_sort_inst_rec(reg_quickSortIR[i], 0, len(reg_quickSortIR[i])-1)
+        fim = time.time()
+        quickSortIR.append(fim - inicio)
 
-def tempo_quicksort_ER(desordenado, quickSortER):
-    registro = desordenado.copy()
-    inicio = time.time()
-    registro = quick_sort_est_rec(registro)
-    fim = time.time()
-    quickSortER.append(fim - inicio)
+def tempo_quicksort_ER(reg_quickSortER, quickSortER):
+    for i in range(limite_quick):
+        inicio = time.time()
+        registro = quick_sort_est_rec(reg_quickSortER[i])
+        fim = time.time()
+        quickSortER.append(fim - inicio)
 
-def tempo_quicksort_II(desordenado, quickSortII):
-    registro = desordenado.copy()
-    inicio = time.time()
-    quick_sort_inst_iterat(registro, 0, len(registro)-1)
-    fim = time.time()
-    quickSortII.append(fim - inicio)
-
+def tempo_quicksort_II(reg_quickSortII, quickSortII):
+    for i in range(limite_quick):
+        inicio = time.time()
+        quick_sort_inst_iterat(reg_quickSortII[i], 0, len(reg_quickSortII[i])-1)
+        fim = time.time()
+        quickSortII.append(fim - inicio)
 
 
 def comparacoes():
-    registro = []
+    desordenado = []
+    reg_merge = []
+    reg_bucket = []
+    reg_quickSortIR = []
+    reg_quickSortER = []
+    reg_quickSortII = []
+
+    for i in range(potencia_maxima):
+        reg_merge.append([])
+        reg_bucket.append([])
+        reg_quickSortIR.append([])
+        reg_quickSortER.append([])
+        reg_quickSortII.append([])
+
+    for i in range(potencia_maxima):
+        gerar_registros_aleatorios(desordenado, 2**(i+1))
+
+        reg_merge[i] = desordenado.copy()
+        reg_bucket[i] = desordenado.copy()
+
+        if i <= limite_quick:
+            reg_quickSortIR[i] = desordenado.copy()
+            reg_quickSortER[i] = desordenado.copy()
+            reg_quickSortII[i] = desordenado.copy()
+
     merge = []
     bucket = []
     quickSortIR = []
     quickSortER = []
     quickSortII = []
     
-
-    for i in range(19):
-        gerar_registros_aleatorios(registro, 2**(i+1))
-        desordenado = registro.copy()
-
-        merge_thread = Thread(target=tempo_merge_sort, args=[desordenado, merge])
-        bucket_thread = Thread(target=tempo_bucket_sort, args=[desordenado, bucket])
+    merge_thread = Thread(target=tempo_merge_sort, args=[reg_merge, merge])
+    bucket_thread = Thread(target=tempo_bucket_sort, args=[reg_bucket, bucket])
+    quickIR_thread = Thread(target=tempo_quicksort_IR, args=[reg_quickSortIR, quickSortIR])
+    quickER_thread = Thread(target=tempo_quicksort_ER, args=[reg_quickSortER, quickSortER])
+    quickII_thread = Thread(target=tempo_quicksort_II, args=[reg_quickSortII, quickSortII])
         
-        merge_thread.start()
-        bucket_thread.start()
+    merge_thread.start()
+    bucket_thread.start()
+    quickIR_thread.start()
+    quickER_thread.start()
+    quickII_thread.start()
 
-        if i <= 15:
-            
-            quickIR_thread = Thread(target=tempo_quicksort_IR, args=[desordenado, quickSortIR])
-            quickER_thread = Thread(target=tempo_quicksort_ER, args=[desordenado, quickSortER])
-            quickII_thread = Thread(target=tempo_quicksort_IR, args=[desordenado, quickSortII])
-            
-            quickIR_thread.start()
-            quickER_thread.start()
-            quickII_thread.start()
-
-        quickIR_thread.join()
-        quickER_thread.join()
-        quickII_thread.join()
-        bucket_thread.join()
-        merge_thread.join()
-
-
+    merge_thread.join()
+    bucket_thread.join()
+    quickIR_thread.join()
+    quickER_thread.join()
+    quickII_thread.join()
 
     printar_grafico(merge, bucket, quickSortIR, quickSortII, quickSortER)
 
@@ -330,11 +325,11 @@ def printar_grafico(merge, bucket, quickSortIR, quickSortII, quickSortER):
     # Data for plotting
     x = np.array([])
 
-    for i in range(19):
+    for i in range(potencia_maxima):
         z = 2**(i+1)
         x = np.append(x, z)
 
-        if i <= 15:
+        if i < limite_quick:
             t_menor = np.copy(x)
         # x.append(z)
 
